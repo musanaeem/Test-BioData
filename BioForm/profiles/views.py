@@ -1,6 +1,7 @@
-import re
+#import re
+#from django.contrib.auth.forms import UserCreationForm
+
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate,login, logout
 from django.contrib import messages
 from . models import *
@@ -96,6 +97,7 @@ def delete_record(request, username):
 
     if request.method == "POST":
         selected_user_data.delete()
+        return redirect("home")
     
     context = {
         "record": selected_user_data
