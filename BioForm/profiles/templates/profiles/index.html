@@ -5,20 +5,16 @@
 
 {% block body %}
 
-<h1> Welcome {{ user.username }} </h1>
+    <h1> Welcome {{ user.username }} </h1>
 
-<form method="POST" action="">
-    {% csrf_token %}
+    <button> <a href="{% url 'create' %}" > Create New </a> </button>
 
-    {{form.as_ul}}
+    {% for object in users %}
 
-    <button> Submit </button>
+        <h1> {{ object.username }} </h1>
+        <button> <a href="{% url 'update' object.username %}" > Update </a>  </button>
+        <button> <a href="{% url 'delete' object.username %}" > Delete </a>  </button>
 
-</form>
-{% for object in users %}
-
-<h1> {{ object.username }} </h1>
-
-{% endfor %}
+    {% endfor %}
 
 {% endblock %}

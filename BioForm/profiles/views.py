@@ -7,20 +7,10 @@ from . models import *
 from profiles.templates.forms import CreateUserForm, BioForm
 
 def index(request):
-    form = BioForm()
 
-    if request.method == "POST":
-        form = BioForm(request.POST)
-        if form.is_valid():
-            form.save()
-            user = form.cleaned_data.get('username')
-            messages.success(request, "Account was created for" + user)
-            return redirect("home")
-    
     all_user_data = Bio.objects.all
     context = {
-        "users": all_user_data,
-        "form": form
+    "users": all_user_data,
     }
     return render(request, "profiles/index.html", context)
 
@@ -43,7 +33,7 @@ def register_user(request):
         widget.attrs['class'] = 'form-control'
      
     context = {
-        "form": form
+        "form":form
         }
     return render(request, "profiles/register.html", context)
 
@@ -65,3 +55,50 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect("login")
+
+def create_record(request):
+
+    if request.method == "POST":
+        form = BioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request, "Account was created for" + user)
+            return redirect("home")
+    
+    form = BioForm()
+    context = {
+        "form": form
+    }
+
+    return render(request, "profiles/create.html", context)
+
+def update_record(request, username):
+
+    selected_user_data = Bio.objects.get(username=username)
+    form = BioForm(instance=selected_user_data)
+
+    if request.method == "POST":
+            form = BioForm(request.POST, instance=selected_user_data)
+            if form.is_valid():
+                form.save()
+                
+                return redirect("home")
+    
+    context = {
+        "form": form
+    }
+
+    return render(request, "profiles/update.html", context)
+
+def delete_record(request, username):
+    selected_user_data = Bio.objects.get(username=username)
+
+    if request.method == "POST":
+        selected_user_data.delete()
+    
+    context = {
+        "record": selected_user_data
+    }
+
+    return render(request, "profiles/delete.html", context)

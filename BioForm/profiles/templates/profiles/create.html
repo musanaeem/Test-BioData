@@ -1,0 +1,21 @@
+{% extends "profiles/base.html" %}
+{% load static %}
+
+
+{% block title %} Create Record {% endblock %}
+
+
+{% block body %}
+
+<h1> Enter details for the record </h1>
+
+<form method="POST" action="">
+    {% csrf_token %}
+
+    {{form.as_ul}}
+
+    <input type="submit" name="Submit">
+
+</form>
+
+{% endblock %}
