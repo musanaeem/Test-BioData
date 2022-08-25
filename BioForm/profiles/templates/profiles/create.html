@@ -2,12 +2,12 @@
 {% load static %}
 
 
-{% block title %} Create Record {% endblock %}
+{% block title %} {{ title }} {% endblock %}
 
 
 {% block body %}
 
-<h1> Enter details for the record </h1>
+<h1> {{ heading }} </h1>
 
 <form method="POST" action="">
     {% csrf_token %}

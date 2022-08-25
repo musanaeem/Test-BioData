@@ -1,21 +1,25 @@
 #import re
 #from django.contrib.auth.forms import UserCreationForm
 
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate,login, logout
 from django.contrib import messages
+from django.contrib.auth import authenticate,login, logout
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
 from . models import *
 from profiles.templates.forms import CreateUserForm, BioForm
 
+@login_required(login_url='login')
 def index(request):
 
     all_user_data = Bio.objects.all
     context = {
-    "users": all_user_data,
+        "users": all_user_data,
     }
     return render(request, "profiles/index.html", context)
 
 def register_user(request):
+    if request.user.is_authenticated:
+        return redirect('home')
 
     if request.method == "POST":
         form = CreateUserForm(request.POST)
@@ -34,12 +38,14 @@ def register_user(request):
         widget.attrs['class'] = 'form-control'
      
     context = {
-        "form":form
-        }
+        "form": form
+    }
     return render(request, "profiles/register.html", context)
 
 def login_user(request):
-    
+    if request.user.is_authenticated:
+        return redirect('home')
+
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -54,9 +60,10 @@ def login_user(request):
     return render(request, "profiles/login.html")
 
 def logout_user(request):
-    logout(request)
+    logout(request) 
     return redirect("login")
 
+@login_required(login_url='login')
 def create_record(request):
 
     if request.method == "POST":
@@ -69,11 +76,14 @@ def create_record(request):
     
     form = BioForm()
     context = {
-        "form": form
+        "form": form,
+        "title": "Create Record",
+        "heading": "Enter details for the record"
     }
 
     return render(request, "profiles/create.html", context)
 
+@login_required(login_url='login')
 def update_record(request, username):
 
     selected_user_data = Bio.objects.get(username=username)
@@ -87,11 +97,14 @@ def update_record(request, username):
                 return redirect("home")
     
     context = {
-        "form": form
+        "form": form,
+        "title": "Update Record",
+        "heading": "Change the field you want to update"
     }
 
-    return render(request, "profiles/update.html", context)
+    return render(request, "profiles/create.html", context)
 
+@login_required(login_url='login')
 def delete_record(request, username):
     selected_user_data = Bio.objects.get(username=username)
 
