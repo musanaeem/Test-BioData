@@ -5,20 +5,19 @@
 
 {% block body %}
 
-<h1> Welcome {{ user.username }} </h1>
+    <button> <a href="{% url 'logout' %}" > Logout </a> </button>
 
-<form method="POST" action="">
-    {% csrf_token %}
 
-    {{form.as_ul}}
+    <h1> Welcome {{ user.username }} </h1>
 
-    <button> Submit </button>
+    <button> <a href="{% url 'create' %}" > Create New </a> </button>
 
-</form>
-{% for object in users %}
+    {% for object in users %}
 
-<h1> {{ object.username }} </h1>
+        <h1> {{ object.username }} </h1>
+        <button> <a href="{% url 'update' object.username %}" > Update </a>  </button>
+        <button> <a href="{% url 'delete' object.username %}" > Delete </a>  </button>
 
-{% endfor %}
+    {% endfor %}
 
 {% endblock %}
