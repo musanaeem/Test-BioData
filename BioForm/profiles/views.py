@@ -19,7 +19,7 @@ def index(request, username):
 
 def register_user(request):
     if request.user.is_authenticated:
-        return redirect('home', request.user.username)
+        return redirect('home', request.user.id)
 
     if request.method == "POST":
         form = CreateUserForm(request.POST)
@@ -44,7 +44,7 @@ def register_user(request):
 
 def login_user(request):
     if request.user.is_authenticated:
-        return redirect('home', request.user.username)
+        return redirect('home', request.user.id)
 
     if request.method == "POST":
         username = request.POST.get("username")
@@ -54,7 +54,7 @@ def login_user(request):
         
         if user is not None:
             login(request, user)
-            return redirect("home", request.user.username)
+            return redirect("home", request.user.id)
         messages.info(request, "Username or Password is incorrect")
         
     return render(request, "profiles/login.html")
@@ -66,17 +66,25 @@ def logout_user(request):
 @login_required(login_url = 'login')
 def create_record(request):
 
+    if Bio.objects.filter(username = request.user.id):
+        messages.info(request, "Bio already exists")
+        return redirect('home', request.user.id)
+
     if request.method == "POST":
         form = BioForm(request.POST)
         #form.cleaned_data["username"] = request.user.username
 
         if form.is_valid():
+            print(form)
             form.save()
 #            user = form.cleaned_data.get('username')
-            return redirect("home", request.user.username)
+            return redirect("home", request.user.id)
+        else:
+            print(form.errors)
     
     form = BioForm()
-    form.fields["username"].initial = request.user.username
+    form.fields["username"].initial = request.user.id
+
     context = {
         "form": form,
         "title": "Create Record",
@@ -96,7 +104,7 @@ def update_record(request, id):
             if form.is_valid():
                 form.save()
                 
-                return redirect("home", request.user.username)
+                return redirect("home", request.user.id)
     
     context = {
         "form": form,
@@ -112,7 +120,7 @@ def delete_record(request, id):
 
     if request.method == "POST":
         selected_user_data.delete()
-        return redirect("home", request.user.username)
+        return redirect("home", request.user.id)
     
     context = {
         "record": selected_user_data
