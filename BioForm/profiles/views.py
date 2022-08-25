@@ -9,9 +9,9 @@ from . models import *
 from profiles.templates.forms import CreateUserForm, BioForm
 
 @login_required(login_url='login')
-def index(request):
+def index(request, username):
 
-    all_user_data = Bio.objects.all
+    all_user_data = Bio.objects.filter(username=username)
     context = {
         "users": all_user_data,
     }
@@ -19,7 +19,7 @@ def index(request):
 
 def register_user(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('home', request.user.username)
 
     if request.method == "POST":
         form = CreateUserForm(request.POST)
@@ -44,7 +44,7 @@ def register_user(request):
 
 def login_user(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('home', request.user.username)
 
     if request.method == "POST":
         username = request.POST.get("username")
@@ -54,7 +54,7 @@ def login_user(request):
         
         if user is not None:
             login(request, user)
-            return redirect("home")
+            return redirect("home", request.user.username)
         messages.info(request, "Username or Password is incorrect")
         
     return render(request, "profiles/login.html")
@@ -68,13 +68,15 @@ def create_record(request):
 
     if request.method == "POST":
         form = BioForm(request.POST)
+        #form.cleaned_data["username"] = request.user.username
+
         if form.is_valid():
             form.save()
-            user = form.cleaned_data.get('username')
-            messages.success(request, "Account was created for" + user)
-            return redirect("home")
+#            user = form.cleaned_data.get('username')
+            return redirect("home", request.user.username)
     
     form = BioForm()
+    form.fields["username"].initial = request.user.username
     context = {
         "form": form,
         "title": "Create Record",
@@ -84,9 +86,9 @@ def create_record(request):
     return render(request, "profiles/create.html", context)
 
 @login_required(login_url='login')
-def update_record(request, username):
+def update_record(request, id):
 
-    selected_user_data = Bio.objects.get(username=username)
+    selected_user_data = Bio.objects.get(id=id)
     form = BioForm(instance=selected_user_data)
 
     if request.method == "POST":
@@ -94,7 +96,7 @@ def update_record(request, username):
             if form.is_valid():
                 form.save()
                 
-                return redirect("home")
+                return redirect("home",request.user.username)
     
     context = {
         "form": form,
@@ -105,12 +107,12 @@ def update_record(request, username):
     return render(request, "profiles/create.html", context)
 
 @login_required(login_url='login')
-def delete_record(request, username):
-    selected_user_data = Bio.objects.get(username=username)
+def delete_record(request, id):
+    selected_user_data = Bio.objects.get(id=id)
 
     if request.method == "POST":
         selected_user_data.delete()
-        return redirect("home")
+        return redirect("home", request.user.username)
     
     context = {
         "record": selected_user_data
