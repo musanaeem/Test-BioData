@@ -8,10 +8,10 @@ from django.shortcuts import render, redirect
 from . models import *
 from profiles.templates.forms import CreateUserForm, BioForm
 
-@login_required(login_url='login')
+@login_required(login_url = 'login')
 def index(request, username):
 
-    all_user_data = Bio.objects.filter(username=username)
+    all_user_data = Bio.objects.filter(username = username)
     context = {
         "users": all_user_data,
     }
@@ -50,7 +50,7 @@ def login_user(request):
         username = request.POST.get("username")
         password = request.POST.get("password")
 
-        user = authenticate(request, username=username,password=password)
+        user = authenticate(request, username = username, password = password)
         
         if user is not None:
             login(request, user)
@@ -63,7 +63,7 @@ def logout_user(request):
     logout(request) 
     return redirect("login")
 
-@login_required(login_url='login')
+@login_required(login_url = 'login')
 def create_record(request):
 
     if request.method == "POST":
@@ -85,10 +85,10 @@ def create_record(request):
 
     return render(request, "profiles/create.html", context)
 
-@login_required(login_url='login')
+@login_required(login_url = 'login')
 def update_record(request, id):
 
-    selected_user_data = Bio.objects.get(id=id)
+    selected_user_data = Bio.objects.get(id = id)
     form = BioForm(instance=selected_user_data)
 
     if request.method == "POST":
@@ -96,7 +96,7 @@ def update_record(request, id):
             if form.is_valid():
                 form.save()
                 
-                return redirect("home",request.user.username)
+                return redirect("home", request.user.username)
     
     context = {
         "form": form,
@@ -106,9 +106,9 @@ def update_record(request, id):
 
     return render(request, "profiles/create.html", context)
 
-@login_required(login_url='login')
+@login_required(login_url = 'login')
 def delete_record(request, id):
-    selected_user_data = Bio.objects.get(id=id)
+    selected_user_data = Bio.objects.get(id = id)
 
     if request.method == "POST":
         selected_user_data.delete()

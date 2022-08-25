@@ -16,8 +16,7 @@
 
         <h1> {{ object.name }}</h1>
         <h2> {{ object.created }}</h2>
-
-
+        
         <button> <a href="{% url 'update' object.id %}" > Update </a>  </button>
         <button> <a href="{% url 'delete' object.id %}" > Delete </a>  </button>
 
