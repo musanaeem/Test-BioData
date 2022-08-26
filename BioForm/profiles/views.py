@@ -9,9 +9,10 @@ from . models import *
 from profiles.templates.forms import CreateUserForm, BioForm
 
 @login_required(login_url = 'login')
-def index(request, username):
+def index(request, uid):
 
-    all_user_data = Bio.objects.filter(username = username)
+    all_user_data = Bio.objects.filter(uid = uid)
+    #print(all_user_data)
     context = {
         "users": all_user_data,
     }
@@ -28,6 +29,8 @@ def register_user(request):
             user = form.cleaned_data.get('username')
             messages.success(request, "Account was created for" + user)
             return redirect("login")
+        else:
+            print(form.errors)
 
     form = CreateUserForm()
 
@@ -66,7 +69,7 @@ def logout_user(request):
 @login_required(login_url = 'login')
 def create_record(request):
 
-    if Bio.objects.filter(username = request.user.id):
+    if Bio.objects.filter(uid = request.user.id):
         messages.info(request, "Bio already exists")
         return redirect('home', request.user.id)
 
@@ -83,7 +86,7 @@ def create_record(request):
             print(form.errors)
     
     form = BioForm()
-    form.fields["username"].initial = request.user.id
+    form.fields["uid"].initial = request.user.id
 
     context = {
         "form": form,
