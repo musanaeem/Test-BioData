@@ -8,8 +8,8 @@ from .. models import Bio
 class BioForm(forms.ModelForm):
     class Meta:
         model = Bio
-        fields = ["uid", "name", "address", "description"]
-        widgets = {"uid": forms.HiddenInput()}
+        fields = ["user", "name", "address", "description"]
+        widgets = {"user": forms.HiddenInput()}
 
 
 class CreateUserForm(UserCreationForm):

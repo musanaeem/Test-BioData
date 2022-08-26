@@ -11,7 +11,7 @@ from profiles.templates.forms import CreateUserForm, BioForm
 @login_required(login_url = 'login')
 def index(request, uid):
 
-    all_user_data = Bio.objects.filter(uid = uid)
+    all_user_data = Bio.objects.filter(user_id = uid)
     #print(all_user_data)
     context = {
         "users": all_user_data,
@@ -69,7 +69,7 @@ def logout_user(request):
 @login_required(login_url = 'login')
 def create_record(request):
 
-    if Bio.objects.filter(uid = request.user.id):
+    if Bio.objects.filter(user_id = request.user.id):
         messages.info(request, "Bio already exists")
         return redirect('home', request.user.id)
 
@@ -86,7 +86,7 @@ def create_record(request):
             print(form.errors)
     
     form = BioForm()
-    form.fields["uid"].initial = request.user.id
+    form.fields["user"].initial = request.user.id
 
     context = {
         "form": form,
