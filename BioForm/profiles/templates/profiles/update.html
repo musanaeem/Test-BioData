@@ -1,0 +1,22 @@
+{% extends "profiles/base.html" %}
+{% load static %}
+
+
+{% block title %} Update Record {% endblock %}
+
+
+{% block body %}
+
+<h1> Change the field you want to update </h1>
+
+
+<form method="POST" action="">
+    {% csrf_token %}
+
+    {{form.as_ul}}
+
+    <input type="submit" name="Submit">
+
+</form>
+
+{% endblock %}
