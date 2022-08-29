@@ -9,10 +9,9 @@ from . models import *
 from profiles.templates.forms import CreateUserForm, BioForm
 
 @login_required(login_url = 'login')
-def index(request, uid):
+def index(request, user_id):
 
-    all_user_data = Bio.objects.filter(user_id = uid)
-    #print(all_user_data)
+    all_user_data = Bio.objects.filter(user_id = user_id)
     context = {
         "users": all_user_data,
     }
@@ -29,8 +28,7 @@ def register_user(request):
             user = form.cleaned_data.get('username')
             messages.success(request, "Account was created for" + user)
             return redirect("login")
-        else:
-            print(form.errors)
+        
 
     form = CreateUserForm()
 
@@ -78,12 +76,9 @@ def create_record(request):
         #form.cleaned_data["username"] = request.user.username
 
         if form.is_valid():
-            print(form)
             form.save()
 #            user = form.cleaned_data.get('username')
             return redirect("home", request.user.id)
-        else:
-            print(form.errors)
     
     form = BioForm()
     form.fields["user"].initial = request.user.id
