@@ -1,42 +1,42 @@
-h1{
-margin: 0;
-display: block;
-margin-right: auto;
-margin-left: auto;
-font-size: 28px;
-border-color: #f7ba5b;
-border-style: solid;
-width: 26%;
-border-radius: 5px 5px 0px 0px;
-background: #f7ba5b;
-text-align: center;
-color: whitesmoke;
+h1 {
+    margin: 0;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 28px;
+    border-color: #f7ba5b;
+    border-style: solid;
+    width: 26%;
+    border-radius: 5px 5px 0px 0px;
+    background: #f7ba5b;
+    text-align: center;
+    color: whitesmoke;
 }
 
-li{
+li {
     list-style-type: none;
     margin-bottom: 2%;
 
 }
 
-input{
+input {
     border-radius: 10px;
     text-align: center;
 }
 
-input:not(.submit){
+input:not(.submit) {
     float: right;
     margin-right: 45%;
 }
 
-.submit{
+.submit {
     width: 30%;
     display: block;
     margin-right: auto;
     margin-left: auto;
 }
 
-textarea{
+textarea {
     border-radius: 5px;
     margin: 2%;
     float: right;
@@ -59,10 +59,10 @@ form {
     border-radius: 0px 0px 5px 5px;
 }
 
-label{
+label {
     margin-right: 2%;
 }
 
-body{
+body {
     margin-top: 10%;
 }

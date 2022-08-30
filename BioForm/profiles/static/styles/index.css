@@ -1,6 +1,4 @@
-
-
-.logout{
+.logout {
     text-decoration: none;
     color: lightcyan;
     float: right;
@@ -14,19 +12,18 @@
     border-radius:25px;
 }
 
-
-.user{
+.user {
     font-weight: bold;
     font-family:Georgia, 'Times New Roman', Times, serif;
 }
 
-.username{
+.username {
     clear: both;
     text-align: center;
     color: lightgoldenrodyellow;
 }
 
-.create_text{
+.create_text {
     text-decoration: none;
     color: lightyellow;
     margin: 3%;
@@ -39,14 +36,14 @@
     border-radius:25px;
 }
 
-.messages{
+.messages {
     margin: 2%;
     margin-left: 4%;
     color: darkred;
     font-weight: bold;
 }
 
-.record{
+.record {
     margin-top: 3%;
     margin-left: 5%;
     width: 350px;
@@ -63,11 +60,11 @@
     line-height: 10px;
 }
 
-.name{
+.name {
     margin-bottom:12%;
 }
 
-.method{
+.method {
     text-decoration: none;
     color: lightyellow;
     margin: 2%;
@@ -80,12 +77,12 @@
     border-radius:20px;
 }
 
-.methods{
+.methods {
     margin:4%;
     margin-left: 12%;
 }
 
-.labels{
+.labels  {
     margin-bottom: 5%;
     margin-left: 2%;
 }

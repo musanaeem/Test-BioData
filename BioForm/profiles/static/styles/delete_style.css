@@ -1,18 +1,12 @@
-
-span{
-    font-weight: bold;
-}
-
-
 p,
 body,
 form,
-input{
+input {
     margin: 2%;
     text-align: center;
 }
 
-p{
+p {
     font-size: 20px;
     margin-top: 12%;
 }
@@ -20,11 +14,11 @@ p{
 form{
     margin-left: 4%;
 }
+span  {
+    font-weight: bold;
+}
 
-
-
-
-.submit{
+.submit {
     margin-left: 7%;
     border-radius: 10px;
     width: 7%;
