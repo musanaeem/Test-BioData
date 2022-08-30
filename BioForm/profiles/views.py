@@ -8,10 +8,10 @@ from django.shortcuts import render, redirect
 from . models import *
 from profiles.templates.forms import CreateUserForm, BioForm
 
-@login_required(login_url='login')
-def index(request):
+@login_required(login_url = 'login')
+def index(request, user_id):
 
-    all_user_data = Bio.objects.all
+    all_user_data = Bio.objects.filter(user_id = user_id)
     context = {
         "users": all_user_data,
     }
@@ -19,7 +19,7 @@ def index(request):
 
 def register_user(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('home', request.user.id)
 
     if request.method == "POST":
         form = CreateUserForm(request.POST)
@@ -28,6 +28,7 @@ def register_user(request):
             user = form.cleaned_data.get('username')
             messages.success(request, "Account was created for" + user)
             return redirect("login")
+        
 
     form = CreateUserForm()
 
@@ -44,17 +45,17 @@ def register_user(request):
 
 def login_user(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('home', request.user.id)
 
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
 
-        user = authenticate(request, username=username,password=password)
+        user = authenticate(request, username = username, password = password)
         
         if user is not None:
             login(request, user)
-            return redirect("home")
+            return redirect("home", request.user.id)
         messages.info(request, "Username or Password is incorrect")
         
     return render(request, "profiles/login.html")
@@ -63,18 +64,25 @@ def logout_user(request):
     logout(request) 
     return redirect("login")
 
-@login_required(login_url='login')
+@login_required(login_url = 'login')
 def create_record(request):
+
+    if Bio.objects.filter(user_id = request.user.id):
+        messages.info(request, "Bio already exists")
+        return redirect('home', request.user.id)
 
     if request.method == "POST":
         form = BioForm(request.POST)
+        #form.cleaned_data["username"] = request.user.username
+
         if form.is_valid():
             form.save()
-            user = form.cleaned_data.get('username')
-            messages.success(request, "Account was created for" + user)
-            return redirect("home")
+#            user = form.cleaned_data.get('username')
+            return redirect("home", request.user.id)
     
     form = BioForm()
+    form.fields["user"].initial = request.user.id
+
     context = {
         "form": form,
         "title": "Create Record",
@@ -83,10 +91,10 @@ def create_record(request):
 
     return render(request, "profiles/create.html", context)
 
-@login_required(login_url='login')
-def update_record(request, username):
+@login_required(login_url = 'login')
+def update_record(request, id):
 
-    selected_user_data = Bio.objects.get(username=username)
+    selected_user_data = Bio.objects.get(id = id)
     form = BioForm(instance=selected_user_data)
 
     if request.method == "POST":
@@ -94,7 +102,7 @@ def update_record(request, username):
             if form.is_valid():
                 form.save()
                 
-                return redirect("home")
+                return redirect("home", request.user.id)
     
     context = {
         "form": form,
@@ -104,13 +112,13 @@ def update_record(request, username):
 
     return render(request, "profiles/create.html", context)
 
-@login_required(login_url='login')
-def delete_record(request, username):
-    selected_user_data = Bio.objects.get(username=username)
+@login_required(login_url = 'login')
+def delete_record(request, id):
+    selected_user_data = Bio.objects.get(id = id)
 
     if request.method == "POST":
         selected_user_data.delete()
-        return redirect("home")
+        return redirect("home", request.user.id)
     
     context = {
         "record": selected_user_data

@@ -7,12 +7,12 @@
 
 {% block body %}
 
-<p> Are you sure you want to delete "{{record.username}}"? </p>
+<p> Are you sure you want to delete "{{record.user}}"? </p>
 
 <form method="POST" action="">
     {% csrf_token %}
 
-    <a href="{% url 'home' %}"> Cancel </a>    
+    <a href="{% url 'home' record.id %}"> Cancel </a>    
 
     <input type="submit" name="Confirm">
 
