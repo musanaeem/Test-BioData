@@ -1,0 +1,31 @@
+
+span{
+    font-weight: bold;
+}
+
+
+p,
+body,
+form,
+input{
+    margin: 2%;
+    text-align: center;
+}
+
+p{
+    font-size: 20px;
+    margin-top: 12%;
+}
+
+form{
+    margin-left: 4%;
+}
+
+
+
+
+.submit{
+    margin-left: 7%;
+    border-radius: 10px;
+    width: 7%;
+}

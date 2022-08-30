@@ -3,18 +3,19 @@
 
 
 {% block title %} Delete Record {% endblock %}
+{% block style %} <link rel="stylesheet" type="text/css" href="{% static 'styles/delete_style.css' %}"/> {% endblock %}
 
 
 {% block body %}
 
-<p> Are you sure you want to delete "{{record.user}}"? </p>
+<p> Are you sure you want to delete <span>"{{record.user}}"</span>? </p>
 
 <form method="POST" action="">
     {% csrf_token %}
 
-    <a href="{% url 'home' record.id %}"> Cancel </a>    
+    <a href="{% url 'home' record.user_id %}"> Cancel </a>    
 
-    <input type="submit" name="Confirm">
+    <input class="submit" type="submit" name="Confirm" value="Confirm">
 
 </form>
 

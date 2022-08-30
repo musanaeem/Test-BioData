@@ -3,6 +3,8 @@
 
 
 {% block title %} {{ title }} {% endblock %}
+{% block style %} <link rel="stylesheet" type="text/css" href="{% static 'styles/create.css' %}"/> {% endblock %}
+
 
 
 {% block body %}
@@ -14,7 +16,7 @@
 
     {{form.as_ul}}
 
-    <input type="submit" name="Submit">
+    <input class="submit" type="submit" name="Submit">
 
 </form>
 
