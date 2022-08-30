@@ -2,11 +2,11 @@
 
 .logout{
     text-decoration: none;
-    color: whitesmoke;
+    color: lightcyan;
     float: right;
     margin: 2%;
     margin-right: 1%;
-    background-color: #f7ba5b; /* Green */
+    background-color: #33ccff; /* Green */
     border: none;
     padding: 15px 32px;
     text-align: center;
@@ -17,20 +17,38 @@
 
 .user{
     font-weight: bold;
+    font-family:Georgia, 'Times New Roman', Times, serif;
 }
 
 .username{
     clear: both;
     text-align: center;
-    color: whitesmoke;
+    color: lightgoldenrodyellow;
 }
 
 .create_text{
+    text-decoration: none;
+    color: lightyellow;
+    margin: 3%;
+    margin-right: 1%;
+    background-color: #f7ba5b; /* Green */
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 16px;
+    border-radius:25px;
+}
+
+.messages{
     margin: 2%;
+    margin-left: 4%;
+    color: darkred;
+    font-weight: bold;
 }
 
 .record{
-    margin-left: 2%;
+    margin-top: 3%;
+    margin-left: 5%;
     width: 350px;
     background: #74cfbf;
     position: relative;
@@ -38,8 +56,36 @@
     justify-content: center;
     flex-direction: column;
     padding: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-radius: 5px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    line-height: 10px;
+}
+
+.name{
+    margin-bottom:12%;
+}
+
+.method{
+    text-decoration: none;
+    color: lightyellow;
+    margin: 2%;
+    margin-right: 15%;
+    background-color: #f7ba5b; /* Green */
+    border: none;
+    padding: 10px 24px;
+    text-align: center;
+    font-size: 16px;
+    border-radius:20px;
+}
+
+.methods{
+    margin:4%;
+    margin-left: 12%;
+}
+
+.labels{
+    margin-bottom: 5%;
+    margin-left: 2%;
 }
