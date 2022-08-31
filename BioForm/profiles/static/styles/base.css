@@ -5,3 +5,34 @@ html {
     height: 100%;
     background: #7abecc;
 }
+.home-button{
+    text-decoration: none;
+    color: lightcyan;
+    margin: 30px;
+    background-color: grey; /* Green */
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 16px;
+    border-radius:25px;
+    width: 3%;
+}
+
+.logout {
+    text-decoration: none;
+    color: lightcyan;
+    margin: 30px;
+    background-color: #33ccff; /* Green */
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 16px;
+    border-radius:25px;
+    width: 3%;
+}
+
+.logout-container{
+    display: flex;
+    justify-content: space-between;
+    background-color: lightblue;
+}

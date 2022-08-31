@@ -1,25 +1,24 @@
 p,
-body,
 form,
 input {
-    margin: 2%;
+    margin: 35px;
     text-align: center;
 }
 
 p {
     font-size: 20px;
-    margin-top: 12%;
+    margin-top: 140px;
 }
 
 form{
-    margin-left: 4%;
+    margin-left: 80px;
 }
 span  {
     font-weight: bold;
 }
 
 .submit {
-    margin-left: 7%;
+    margin-left: 120px;
     border-radius: 10px;
     width: 7%;
 }

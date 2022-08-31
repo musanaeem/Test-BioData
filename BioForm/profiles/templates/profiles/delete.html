@@ -13,7 +13,7 @@
 <form method="POST" action="">
     {% csrf_token %}
 
-    <a href="{% url 'home' record.user_id %}"> Cancel </a>    
+    <a href="{% url 'home' %}"> Cancel </a>
 
     <input class="submit" type="submit" name="Confirm" value="Confirm">
 

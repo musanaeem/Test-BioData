@@ -8,15 +8,19 @@
 
 {% block body %}
 
-<h1> {{ heading }} </h1>
+<div class="form-container">
+    <h1> {{ heading }} </h1>
 
-<form method="POST" action="">
-    {% csrf_token %}
+    <form method="POST" action="">
+        {% csrf_token %}
 
-    {{form.as_ul}}
+        <div class="form-inputs">
+            {{form.as_ul}}
+        </div>
+        
+        <input class="submit" type="submit" name="Submit">
 
-    <input class="submit" type="submit" name="Submit">
-
-</form>
+    </form>
+</div>
 
 {% endblock %}

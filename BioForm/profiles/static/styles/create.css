@@ -15,8 +15,10 @@ h1 {
 
 li {
     list-style-type: none;
-    margin-bottom: 2%;
-
+    display: flex;
+    justify-content: space-between;
+    
+    margin-bottom: 10px;
 }
 
 input {
@@ -24,9 +26,15 @@ input {
     text-align: center;
 }
 
+.form-inputs{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
 input:not(.submit) {
-    float: right;
-    margin-right: 45%;
+    margin-right: 205px;
 }
 
 .submit {
@@ -38,8 +46,7 @@ input:not(.submit) {
 
 textarea {
     border-radius: 5px;
-    margin: 2%;
-    float: right;
+    margin-right: 10px;
 }
 
 form {
@@ -57,12 +64,9 @@ form {
     -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 0px 0px 5px 5px;
+    
 }
 
-label {
-    margin-right: 2%;
-}
-
-body {
-    margin-top: 10%;
+.form-container{
+    margin-top: 200px;
 }
