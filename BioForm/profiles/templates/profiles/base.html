@@ -8,8 +8,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/base.css' %}"/>
+    {% block style %}  {% endblock %}
+
 </head>
 <body>
+
+    <div class="logout-container">
+        <a class="home-button" href="{% url 'home' %}" > Home </a>
+        <a class="logout" href="{% url 'logout' %}" >  Logout </a>
+    </div>
 
     {% block body %}{% endblock %}
     

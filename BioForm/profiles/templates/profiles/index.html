@@ -1,30 +1,32 @@
 {% extends "profiles/base.html" %}
+{% load static %}
 
 {% block title %}Welcome!{% endblock %}
+{% block style %} <link rel="stylesheet" type="text/css" href="{% static 'styles/index.css' %}"/> {% endblock %}
 
 
 {% block body %}
 
-    <button> <a href="{% url 'logout' %}" > Logout </a> </button>
+    <h1 class="username"> Welcome <span class="user">{{ user.username }} </span></h1>
 
-
-    <h1> Welcome {{ user.username }} </h1>
-
-    <button> <a href="{% url 'create' %}" > Create New </a> </button>
+    <a class="create_text" href="{% url 'create' %}" > Create New </a>
 
     {% for message in messages %}
       <p class="messages"> {{message}} </p>
     {% endfor %}
 
     {% for object in users %}
-
-        <h1> {{ object.name }}</h1>
-        <h2> {{ object.created }}</h2>
-        <h2> {{ object.uid }}</h2>
-
-        <button> <a href="{% url 'update' object.id %}" > Update </a>  </button>
-        <button> <a href="{% url 'delete' object.id %}" > Delete </a>  </button>
-
+      <div class="record">
+        <div class="labels">
+          <h1 class="name"> {{ object.name }}</h1>
+          <h3> Address: {{ object.address }}</h3>
+          <h3> Description: {{ object.description }}</h3>
+        </div> 
+        <div class="methods">
+          <a class="method" href="{% url 'update' object.id %}" > Update </a>
+          <a class="method" href="{% url 'delete' object.id %}" > Delete </a>
+        </div>
+      </div>
     {% endfor %}
 
 {% endblock %}
