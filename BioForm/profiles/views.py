@@ -57,8 +57,7 @@ def login_user(request):
             login(request, user)
             return redirect("home")
         
-        if messages is None:
-            messages.info(request, "Username or Password is incorrect")
+        messages.info(request, "Username or Password is incorrect")
         
     return render(request, "profiles/login.html")
 
