@@ -1,7 +1,5 @@
 from django.conf import settings
-from django.urls import reverse
 from django.shortcuts import redirect
-from django.contrib.auth import logout
 import re
 
 # URLs that are exempt from redirect such as login and register
@@ -23,8 +21,14 @@ class LoginRequiredMiddleware:
         assert hasattr(request, 'user')
         
         path = request.path_info.lstrip('/')
-        url_is_exempt = any(url.match(path) for url in EXEMPT_URLS)
+       
+        admin_path = re.compile(r'^admin/')
 
+        if admin_path.match(path):
+            return None
+        
+        url_is_exempt = any(url.match(path) for url in EXEMPT_URLS)
+       
         if request.user.is_authenticated and url_is_exempt:
             return redirect(settings.LOGIN_REDIRECT_URL)
         elif request.user.is_authenticated or url_is_exempt:

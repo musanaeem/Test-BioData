@@ -1,8 +1,6 @@
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth import get_user_model
-
 from profiles.models import Account, AccountManager
-from django.contrib import messages
 
 
 class AccountBackend(ModelBackend):
@@ -14,10 +12,10 @@ class AccountBackend(ModelBackend):
             username = kwargs.get(UserModel.USERNAME_FIELD)
         
         try:
-            case_sensitive_email = AccountManager.get_by_natural_key(email__iexact=username)
+            case_insensitive_email = AccountManager.get_by_natural_key(email__iexact=username)
 
-            user = Account.objects.get(email = case_sensitive_email)
-            
+            user = Account.objects.get(email = case_insensitive_email)
+
         except:
             return
         else:

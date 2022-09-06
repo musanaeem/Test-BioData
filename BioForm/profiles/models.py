@@ -1,6 +1,4 @@
-from tkinter import Widget
-from xmlrpc.client import DateTime
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, User
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 import datetime
 
