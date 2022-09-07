@@ -2,8 +2,8 @@ from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth import get_user_model
 from profiles.models import Account, AccountManager
 
-
-class AccountBackend(ModelBackend):
+# File not used 
+""" class AccountBackend(ModelBackend):
 
     def authenticate(self, request, username = None, password = None, **kwargs):
         UserModel = get_user_model
@@ -19,5 +19,5 @@ class AccountBackend(ModelBackend):
         except:
             return
         else:
-            if user.check_password(password) and self.user_can_authenticate(user):
-                return user
+            if user.check_password(password):
+                return user """

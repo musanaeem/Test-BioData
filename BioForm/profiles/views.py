@@ -1,14 +1,12 @@
-#import re
-#from django.contrib.auth.forms import UserCreationForm
-
 from django.contrib import messages
 from django.contrib.auth import authenticate,login, logout
-#from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from . models import *
 from profiles.templates.forms import CreateUserForm, BioForm
 
-#@login_required(login_url = 'login')
+
+@login_required(login_url = 'login')
 def index(request):
 
     all_user_data = Bio.objects.filter(user_id = request.user)
@@ -18,8 +16,8 @@ def index(request):
     return render(request, "profiles/index.html", context)
 
 def register_user(request):
-    #if request.user.is_authenticated:
-    #    return redirect('home')
+    if request.user.is_authenticated:
+        return redirect('home')
 
     if request.method == "POST":
         form = CreateUserForm(request.POST)
@@ -44,17 +42,16 @@ def register_user(request):
     return render(request, "profiles/register.html", context)
 
 def login_user(request):
-    #if request.user.is_authenticated:
-    #    return redirect('home')
-
+    if request.user.is_authenticated:
+        return redirect('home')
     if request.method == "POST":
         email = request.POST.get("username")
         password = request.POST.get("password")
 
-        user = authenticate(request, username = email, password = password)
+        current_user = authenticate(request, username = email, password = password)
         
-        if user is not None:
-            login(request, user)
+        if current_user is not None:
+            login(request, current_user)
             return redirect("home")
         
         messages.info(request, "Username or Password is incorrect")
@@ -65,7 +62,7 @@ def logout_user(request):
     logout(request)
     return redirect("login")
 
-#@login_required(login_url = 'login')
+@login_required(login_url = 'login')
 def create_record(request):
 
     if Bio.objects.filter(user_id = request.user.id):
@@ -90,7 +87,7 @@ def create_record(request):
 
     return render(request, "profiles/create.html", context)
 
-#@login_required(login_url = 'login')
+@login_required(login_url = 'login')
 def update_record(request, id):
 
     selected_user_data = Bio.objects.get(id = id)
@@ -111,7 +108,7 @@ def update_record(request, id):
 
     return render(request, "profiles/create.html", context)
 
-#@login_required(login_url = 'login')
+@login_required(login_url = 'login')
 def delete_record(request, id):
     selected_user_data = Bio.objects.get(id = id)
 

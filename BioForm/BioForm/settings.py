@@ -29,10 +29,12 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = "profiles.Account"
 
-AUTHENTICATION_BACKENDS = (
+
+# Authentication backend overrided 
+""" AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.AllowAllUsersModelBackend',
     'profiles.backends.AccountBackend'
-)
+) """
 
 # Application definition
 
@@ -47,6 +49,8 @@ INSTALLED_APPS = [
     "profiles",
 ]
 
+# Custom login redirect middleware
+# "profiles.middleware.LoginRequiredMiddleware"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -54,8 +58,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "profiles.middleware.LoginRequiredMiddleware"
+    "django.middleware.clickjacking.XFrameOptionsMiddleware"
 ]
 
 ROOT_URLCONF = "BioForm.urls"

@@ -2,6 +2,8 @@ from django.conf import settings
 from django.shortcuts import redirect
 import re
 
+# File not used
+
 # URLs that are exempt from redirect such as login and register
 EXEMPT_URLS = [re.compile(settings.LOGIN_URL.lstrip('/'))]
 if hasattr(settings, 'LOGIN_EXEMPT_URLS'):
@@ -16,6 +18,7 @@ class LoginRequiredMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
         return response
+    
 
     def process_view(self, request, view_func, view_args, view_kwargs):
         assert hasattr(request, 'user')
