@@ -1,12 +1,10 @@
-#import re
-#from django.contrib.auth.forms import UserCreationForm
-
 from django.contrib import messages
 from django.contrib.auth import authenticate,login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from . models import *
 from profiles.templates.forms import CreateUserForm, BioForm
+
 
 @login_required(login_url = 'login')
 def index(request):
@@ -46,22 +44,22 @@ def register_user(request):
 def login_user(request):
     if request.user.is_authenticated:
         return redirect('home')
-
     if request.method == "POST":
-        username = request.POST.get("username")
+        email = request.POST.get("username")
         password = request.POST.get("password")
 
-        user = authenticate(request, username = username, password = password)
+        current_user = authenticate(request, username = email, password = password)
         
-        if user is not None:
-            login(request, user)
+        if current_user is not None:
+            login(request, current_user)
             return redirect("home")
+        
         messages.info(request, "Username or Password is incorrect")
         
     return render(request, "profiles/login.html")
 
 def logout_user(request):
-    logout(request) 
+    logout(request)
     return redirect("login")
 
 @login_required(login_url = 'login')
@@ -71,13 +69,12 @@ def create_record(request):
         messages.info(request, "Bio already exists")
         return redirect('home')
 
-    if request.method == "POST":
+    if request.method == "POST":        
         form = BioForm(request.POST)
-        #form.cleaned_data["username"] = request.user.username
 
         if form.is_valid():
+            form.cleaned_data["user"] = request.user.id
             form.save()
-#            user = form.cleaned_data.get('username')
             return redirect("home")
     
     form = BioForm()

@@ -1,9 +1,10 @@
-import imp
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 from django import forms
-from .. models import Bio
+from .. models import Bio, Account
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class BioForm(forms.ModelForm):
     class Meta:
@@ -14,5 +15,6 @@ class BioForm(forms.ModelForm):
 
 class CreateUserForm(UserCreationForm):
     class Meta:
-        model = User
-        fields = ["username", "email", "password1", "password2"]
+        model = Account
+        fields = ["username", "email", "date_of_birth", "password1", "password2"]
+        widgets = {"date_of_birth": DateInput()}

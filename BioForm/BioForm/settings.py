@@ -27,6 +27,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = "profiles.Account"
+
+
+# Authentication backend overrided 
+""" AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.AllowAllUsersModelBackend',
+    'profiles.backends.AccountBackend'
+) """
 
 # Application definition
 
@@ -41,6 +49,8 @@ INSTALLED_APPS = [
     "profiles",
 ]
 
+# Custom login redirect middleware
+# "profiles.middleware.LoginRequiredMiddleware"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -48,7 +58,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware"
 ]
 
 ROOT_URLCONF = "BioForm.urls"
@@ -117,3 +127,11 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGIN_URL = '/profiles/login/'
+
+LOGIN_REDIRECT_URL = '/profiles/index/'
+
+LOGIN_EXEMPT_URLS = (
+    r'^profiles/register/$',
+)
