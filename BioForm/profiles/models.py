@@ -1,9 +1,12 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.hashers import make_password
+
 from django.db import models
 import datetime
 
 #User Manager Model
 class AccountManager(BaseUserManager):
+    use_in_migrations = True
 
     def create_user(self, email, username, password=None, **extra_fields):
         if not email:
@@ -16,7 +19,7 @@ class AccountManager(BaseUserManager):
             **extra_fields
         )
 
-        user.set_password(password)
+        user.password = make_password(password)
         user.save(using = self.db)
 
         return user
@@ -34,6 +37,10 @@ class AccountManager(BaseUserManager):
         user.is_superuser = True
         user.save(using = self.db)
 
+        return user
+
+    def atomic_create_user(self, email, username, password=None, **extra_fields):
+        user = self.create_user(email, username, password, **extra_fields)
         return user
     
     def get_by_natural_key(self, email):
