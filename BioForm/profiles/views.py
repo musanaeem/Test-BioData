@@ -69,10 +69,11 @@ def create_record(request):
         messages.info(request, "Bio already exists")
         return redirect('home')
 
-    if request.method == "POST":
+    if request.method == "POST":        
         form = BioForm(request.POST)
 
         if form.is_valid():
+            form.cleaned_data["user"] = request.user.id
             form.save()
             return redirect("home")
     
