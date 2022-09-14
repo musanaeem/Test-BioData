@@ -1,22 +1,21 @@
 from django.core.management.base import BaseCommand
 from profiles.models import Account
-from datetime import date
+from datetime import datetime, timedelta
 
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        count = 0
-        active_users = Account.objects.filter(is_active=True)
+        days_offline = 10
 
-        if active_users:
-            for user in active_users:
-                date_difference = date.today() - user.last_login.date()
+        inactive_users = Account.objects.filter(last_login__lte=datetime.now()-timedelta(days=days_offline))
 
-                if date_difference.days >=10 and user.is_admin == False:
-                    count += 1
-                    user.is_active = False
+        if inactive_users:
+            for user in inactive_users:
+                
+                count += 1
+                user.is_active = False
 
-                    user.save()
+                user.save()
         
         print(f"{count} user(s) were set to inactive")
 
