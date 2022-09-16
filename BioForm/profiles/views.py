@@ -3,15 +3,14 @@ from django.contrib.auth import authenticate,login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from . models import *
-from profiles.templates.forms import CreateUserForm, BioForm
+from profiles.templates.forms import CreateUserForm, BioForm, BlogForm
 
 
 @login_required(login_url = 'login')
 def index(request):
 
-    all_user_data = Bio.objects.filter(user_id = request.user)
     context = {
-        "users": all_user_data,
+        "username": request.user.username,
     }
     return render(request, "profiles/index.html", context)
 
@@ -63,6 +62,37 @@ def logout_user(request):
     return redirect("login")
 
 @login_required(login_url = 'login')
+def display_bio(request):
+    all_user_data = Bio.objects.filter(user_id = request.user)
+    context = {
+        "users": all_user_data,
+    }
+    return render(request, "profiles/bio.html", context)
+    
+
+@login_required(login_url = 'login')
+def display_blogs(request):
+
+    blogs = Blog.objects.all()
+
+    context = {
+        "username": request.user.username,
+        "blogs": blogs
+    }
+    return render(request, "profiles/blogs.html", context)
+
+@login_required(login_url = 'login')
+def display_single_blog(request, id):
+
+    blog = Blog.objects.get(id=id)
+
+    context = {
+        "username": request.user.username,
+        "blog": blog
+    }
+    return render(request, "profiles/single_blog.html", context)
+
+@login_required(login_url = 'login')
 def create_record(request):
 
     if Bio.objects.filter(user_id = request.user.id):
@@ -89,6 +119,27 @@ def create_record(request):
     return render(request, "profiles/create.html", context)
 
 @login_required(login_url = 'login')
+def create_blog(request):
+
+    if request.method == "POST":        
+        form = BlogForm(request.POST)
+
+        if form.is_valid():
+            form.cleaned_data["user"] = request.user.id
+            form.save()
+            return redirect("blogs")
+    
+    form = BlogForm()
+    form.fields["user"].initial = request.user.id
+
+    context = {
+        "form": form,
+        "title": "Create New Blog"
+    }
+
+    return render(request, "profiles/create.html", context)
+
+@login_required(login_url = 'login')
 def update_record(request, id):
 
     selected_user_data = Bio.objects.get(id = id)
@@ -110,12 +161,46 @@ def update_record(request, id):
     return render(request, "profiles/create.html", context)
 
 @login_required(login_url = 'login')
+def update_blog(request, id):
+
+    selected_user_data = Blog.objects.get(id = id)
+    form = BlogForm(instance=selected_user_data)
+
+    if request.method == "POST":
+            form = BlogForm(request.POST, instance=selected_user_data)
+            if form.is_valid():
+                form.save()
+                
+                return redirect("blogs")
+    
+    context = {
+        "form": form,
+        "title": "Update Blog",
+    }
+
+    return render(request, "profiles/create.html", context)
+
+@login_required(login_url = 'login')
 def delete_record(request, id):
     selected_user_data = Bio.objects.get(id = id)
 
     if request.method == "POST":
         selected_user_data.delete()
         return redirect("home")
+    
+    context = {
+        "record": selected_user_data
+    }
+
+    return render(request, "profiles/delete.html", context)
+
+@login_required(login_url = 'login')
+def delete_blog(request, id):
+    selected_user_data = Blog.objects.get(id = id)
+
+    if request.method == "POST":
+        selected_user_data.delete()
+        return redirect("blogs")
     
     context = {
         "record": selected_user_data

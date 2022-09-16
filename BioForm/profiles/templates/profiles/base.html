@@ -16,7 +16,10 @@
 
     <div class="logout-container">
         <a class="home-button" href="{% url 'home' %}" > Home </a>
+        <a class="blogs" href="{% url 'blogs' %}" >  Blogs </a>
+        <a class="bio" href="{% url 'bio' %}" >  Bio </a>
         <a class="logout" href="{% url 'logout' %}" >  Logout </a>
+
     </div>
 
     {% block body %}{% endblock %}

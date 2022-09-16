@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.hashers import make_password
+from django.utils.text import slugify
 
 from django.db import models
 import datetime
@@ -88,6 +89,23 @@ class Bio(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     address = models.CharField(max_length=300, blank=True)
     description = models.TextField(blank=True)
+
+class Blog(models.Model):
+    title = models.CharField(max_length=300, unique=True)
+    slug = models.SlugField(max_length=400, unique=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now= True)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    content = models.TextField()
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['-created']
+
+
 
 
 

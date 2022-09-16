@@ -1,0 +1,87 @@
+.user {
+    font-weight: bold;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+.heading {
+    clear: both;
+    text-align: center;
+    color: lightgoldenrodyellow;
+}
+
+.create_text {
+    text-decoration: none;
+    color: lightyellow;
+    margin: 45px;
+    margin-right: 20px;
+    background-color: #f7ba5b; /* Green */
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 16px;
+    border-radius:25px;
+}
+
+.created{
+    margin-bottom: 34px;
+}
+
+.messages {
+    margin: 30px;
+    margin-left: 58px;
+    color: darkred;
+    font-weight: bold;
+}
+
+.record {
+    margin-top: 60px;
+    margin-left: 80px;
+    width: calc(90%);
+    background: #74cfbf;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    line-height: 10px;
+}
+
+.title {
+    margin-bottom:40px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+.method {
+    text-decoration: none;
+    color: lightyellow;
+    background-color: #f7ba5b; /* Green */
+    border: none;
+    padding: 10px 24px;
+    text-align: center;
+    font-size: 16px;
+    border-radius:20px;
+}
+
+.methods {
+    display: flex;
+    justify-content: space-around;
+}
+
+.labels  {
+    margin-bottom: 20px;
+    margin-left: 8px;
+    
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+}
+
+.author{
+    margin-top: 60px;
+}
