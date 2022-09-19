@@ -1,6 +1,6 @@
-from django.contrib.auth.backends import ModelBackend
-from django.contrib.auth import get_user_model
-from profiles.models import Account, AccountManager
+#from django.contrib.auth.backends import ModelBackend
+#from django.contrib.auth import get_user_model
+#from profiles.models import Account, AccountManager
 
 # File not used 
 """ class AccountBackend(ModelBackend):
