@@ -97,7 +97,7 @@ def bio_create(request):
 
     if Bio.objects.filter(user_id = request.user.id):
         messages.info(request, 'Bio already exists')
-        return redirect('home')
+        return redirect('bio-view')
 
     if request.method == 'POST':        
         form = BioForm(request.POST)
@@ -105,7 +105,7 @@ def bio_create(request):
         if form.is_valid():
             form.cleaned_data['user'] = request.user.id
             form.save()
-            return redirect('home')
+            return redirect('bio-view')
     
     form = BioForm()
     form.fields['user'].initial = request.user.id
@@ -113,7 +113,8 @@ def bio_create(request):
     context = {
         'form': form,
         'title': 'Create Record',
-        'heading': 'Enter details for the record'
+        'heading': 'Enter details for the record',
+        'type': 'Bio'
     }
 
     return render(request, 'profiles/create.html', context)
@@ -134,7 +135,9 @@ def blog_create(request):
 
     context = {
         'form': form,
-        'title': 'Create New Blog'
+        'title': 'Create New Blog',
+        'heading': 'Enter details for the Blog',
+        'type': 'Blog'
     }
 
     return render(request, 'profiles/create.html', context)
@@ -155,7 +158,8 @@ def bio_update(request, id):
     context = {
         'form': form,
         'title': 'Update Record',
-        'heading': 'Change the field you want to update'
+        'heading': 'Change the field you want to update',
+        'type': 'Bio'
     }
 
     return render(request, 'profiles/create.html', context)
@@ -176,6 +180,8 @@ def blog_update(request, id):
     context = {
         'form': form,
         'title': 'Update Blog',
+        'heading': 'Change the field you want to update',
+        'type': 'Blog'
     }
 
     return render(request, 'profiles/create.html', context)
