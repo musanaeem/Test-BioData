@@ -3,18 +3,20 @@ from . import views
 
 urlpatterns = [
     path('profiles/', views.login_user),
-    path('profiles/index/', views.index, name="home"),
-    path('profiles/register/', views.register_user, name="register"),
-    path('profiles/login/', views.login_user, name="login"),
-    path('profiles/createbio/', views.create_record, name="create_bio"),
-    path('profiles/createblog/', views.create_blog, name="create_blog"),
-    path('profiles/logout', views.logout_user,name="logout"),
-    path('profiles/update/<int:id>/', views.update_record, name="update"),
-    path('profiles/delete/<int:id>/', views.delete_record, name="delete"),
-    path('profiles/update-blog/<int:id>/', views.update_blog, name="update-blog"),
-    path('profiles/delete-blog/<int:id>/', views.delete_blog, name="delete-blog"),
-    path('profiles/blogs/', views.display_blogs, name="blogs"),
-    path('profiles/single-blog/<int:id>/', views.display_single_blog, name="single-blog"),
-    path('profiles/bio/', views.display_bio, name="bio"),
+    path('home/', views.index, name='home'),
+    path('profiles/register/', views.register_user, name='register'),
+    path('profiles/login/', views.login_user, name='login'),
+    path('profiles/logout', views.logout_user,name='logout'),
+
+    path('profiles/bio/', views.bio_view, name='bio-view'),
+    path('profiles/bio/new/', views.bio_create, name='create-bio'),
+    path('profiles/bio/<int:id>/edit/', views.bio_update, name='update-bio'),
+    path('profiles/bio/<int:id>/delete/', views.bio_delete, name='delete-bio'),
+    
+    path('blogs/', views.blog_list_view, name='blog-list'),
+    path('blogs/new/', views.blog_create, name='create-blog'),
+    path('blogs/<int:id>/', views.blog_view, name='blog-view'),
+    path('blogs/<int:id>/edit/', views.blog_update, name='update-blog'),
+    path('blogs/<int:id>/delete/', views.blog_delete, name='delete-blog'),
 
 ]

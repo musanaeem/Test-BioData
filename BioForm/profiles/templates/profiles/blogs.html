@@ -3,7 +3,7 @@
 
 {% block title %}Welcome!{% endblock %}
 {% block style %} 
-    <link rel="stylesheet" type="text/css" href="{% static 'styles/blog.css' %}"/> 
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/blogs.css' %}"/> 
 {% endblock %}
 
 
@@ -12,13 +12,13 @@
 
     <h1 class="heading"> Blogs </span></h1>
 
-    <a class="create_text" href="{% url 'create_blog' %}" > Create New </a>
+    <a class="create_text" href="{% url 'create-blog' %}" > Create New </a>
 
     {% for blog in blogs %}
       <div class="record">
         <div class="labels">
           <h3 class="created"> {{ blog.created|timesince}} ago </h3>
-          <a class="link" href="{% url 'single-blog' blog.id %}">  <h1 class="title"> {{ blog.title }} </h1>  </a>
+          <a class="link" href="{% url 'blog-view' blog.id %}">  <h1 class="title"> {{ blog.title }} </h1>  </a>
           <h3 class="content"> Content: {{ blog.content }}</h3>
           <h3 class="author"> Author: {{ blog.user }}</h3>
         </div> 
