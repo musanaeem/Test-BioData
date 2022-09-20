@@ -164,6 +164,17 @@ def get_users_blogs(request):
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+@api_view(['GET'])
+def get_single_blog(request, id):
+    _ = authenticate_user(request)
+    
+    try:
+        blog = Blog.objects.filter(id=id).first()
+        blog_serializer = BlogSerializer(blog)
+        return Response(blog_serializer.data)
+    except:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
 @api_view(['POST'])
 def add_blog(request):
     serializer = authenticate_user(request)
@@ -180,9 +191,12 @@ def add_blog(request):
 
 @api_view(['PUT'])
 def update_blog(request, id):
+    serializer = authenticate_user(request)
 
     try:
-        blog = Blog.objects.get(id=id)
+        blogs = Blog.objects.filter(user_id=serializer.data['id'])
+
+        blog = blogs.get(id=id)
         blog_serializer = BlogSerializer(instance=blog, data=request.data, partial=True)
 
         if blog_serializer.is_valid():
@@ -195,9 +209,10 @@ def update_blog(request, id):
 
 @api_view(['DELETE'])
 def delete_blog(request, id):
-
+    serializer = authenticate_user(request)
     try:
-        blog = Blog.objects.get(id=id)
+        blogs = Blog.objects.filter(user_id=serializer.data['id'])
+        blog = blogs.get(id=id)
         blog.delete()
 
         return Response({

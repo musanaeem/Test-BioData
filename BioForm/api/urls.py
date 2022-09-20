@@ -11,6 +11,7 @@ urlpatterns = [
     path('api/add-bio/', views.add_bio, name='add-bio'),
     path('api/update-bio/<int:id>/', views.update_bio, name='update-bio'),
     path('api/delete-bio/<int:id>/', views.delete_bio, name='delete-bio'),
+    path('api/blog/<int:id>/', views.get_single_blog, name='get-blog'),
     path('api/blogs/', views.get_all_blogs, name='get-blogs'),
     path('api/user-blogs/', views.get_users_blogs, name='user-blogs'),
     path('api/add-blog/', views.add_blog, name='addblog'),
