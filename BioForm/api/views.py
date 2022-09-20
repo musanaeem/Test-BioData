@@ -76,7 +76,7 @@ def authenticate_user(request):
     return serializer
 
 @api_view(['GET'])
-def get_user(request):
+def user_view(request):
     user = request.user
     if user.is_authenticated:
         return Response({
@@ -85,7 +85,7 @@ def get_user(request):
     return Response({})
 
 @api_view(['GET'])
-def get_bio(request):
+def bio_view(request):
     try:
         serializer = authenticate_user(request)
         bio = Bio.objects.filter(user_id=serializer.data['id']).first()
@@ -95,7 +95,7 @@ def get_bio(request):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
-def add_bio(request):
+def bio_create(request):
     serializer = authenticate_user(request)
 
     if Bio.objects.filter(user_id=serializer.data['id']):
@@ -112,7 +112,7 @@ def add_bio(request):
     })
 
 @api_view(['PUT'])
-def update_bio(request, id):
+def bio_update(request, id):
 
     try:
         serializer = authenticate_user(request)
@@ -129,7 +129,7 @@ def update_bio(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['DELETE'])
-def delete_bio(request, id):
+def bio_delete(request, id):
 
     try:
         serializer = authenticate_user(request)
@@ -143,7 +143,7 @@ def delete_bio(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
-def get_all_blogs(request):
+def blog_list_view(request):
     _ = authenticate_user(request)
     
     try:
@@ -154,7 +154,7 @@ def get_all_blogs(request):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
-def get_users_blogs(request):
+def blog_view_user(request):
     serializer = authenticate_user(request)
 
     try:
@@ -165,7 +165,7 @@ def get_users_blogs(request):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
-def get_single_blog(request, id):
+def blog_view(request, id):
     _ = authenticate_user(request)
     
     try:
@@ -176,7 +176,7 @@ def get_single_blog(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
-def add_blog(request):
+def blog_create(request):
     serializer = authenticate_user(request)
 
     blog_serializer = BlogSerializer(data=request.data)
@@ -190,7 +190,7 @@ def add_blog(request):
     })
 
 @api_view(['PUT'])
-def update_blog(request, id):
+def blog_update(request, id):
     serializer = authenticate_user(request)
 
     try:
@@ -208,7 +208,7 @@ def update_blog(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['DELETE'])
-def delete_blog(request, id):
+def blog_delete(request, id):
     serializer = authenticate_user(request)
     try:
         blogs = Blog.objects.filter(user_id=serializer.data['id'])
