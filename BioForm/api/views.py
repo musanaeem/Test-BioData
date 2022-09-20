@@ -115,7 +115,9 @@ def add_bio(request):
 def update_bio(request, id):
 
     try:
-        bio = Bio.objects.get(id=id)
+        serializer = authenticate_user(request)
+        bio = Bio.objects.filter(user_id=serializer.data['id']).first()
+
         bio_serializer = BioSerializer(instance=bio, data=request.data, partial=True)
 
         if bio_serializer.is_valid():
@@ -130,7 +132,8 @@ def update_bio(request, id):
 def delete_bio(request, id):
 
     try:
-        bio = Bio.objects.get(id=id)
+        serializer = authenticate_user(request)
+        bio = Bio.objects.filter(user_id=serializer.data['id']).first()
         bio.delete()
 
         return Response({
