@@ -1,6 +1,7 @@
 import datetime
 import jwt
 from profiles.models import *
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
@@ -85,10 +86,13 @@ def get_user(request):
 
 @api_view(['GET'])
 def get_bio(request):
-    serializer = authenticate_user(request)
-    bio = Bio.objects.filter(user_id=serializer.data['id']).first()
-    bio_serializer = BioSerializer(bio)
-    return Response(bio_serializer.data)
+    try:
+        serializer = authenticate_user(request)
+        bio = Bio.objects.filter(user_id=serializer.data['id']).first()
+        bio_serializer = BioSerializer(bio)
+        return Response(bio_serializer.data)
+    except:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
 def add_bio(request):
@@ -107,19 +111,55 @@ def add_bio(request):
         'record_entered': bio_serializer.data
     })
 
+@api_view(['PUT'])
+def update_bio(request, id):
+
+    try:
+        bio = Bio.objects.get(id=id)
+        bio_serializer = BioSerializer(instance=bio, data=request.data, partial=True)
+
+        if bio_serializer.is_valid():
+            bio_serializer.save()
+            return Response(bio_serializer.data)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    except:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['DELETE'])
+def delete_bio(request, id):
+
+    try:
+        bio = Bio.objects.get(id=id)
+        bio.delete()
+
+        return Response({
+            'message' : 'Deletion Successful!'
+        })
+    except:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
 @api_view(['GET'])
 def get_all_blogs(request):
     _ = authenticate_user(request)
-    blogs = Blog.objects.all()
-    blog_serializer = BlogSerializer(blogs, many=True)
-    return Response(blog_serializer.data)
+    
+    try:
+        blogs = Blog.objects.all()
+        blog_serializer = BlogSerializer(blogs, many=True)
+        return Response(blog_serializer.data)
+    except:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
 def get_users_blogs(request):
     serializer = authenticate_user(request)
-    blogs = Blog.objects.filter(user_id=serializer.data['id'])
-    blog_serializer = BlogSerializer(blogs, many=True)
-    return Response(blog_serializer.data)
+
+    try:
+        blogs = Blog.objects.filter(user_id=serializer.data['id'])
+        blog_serializer = BlogSerializer(blogs, many=True)
+        return Response(blog_serializer.data)
+    except:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
 def add_blog(request):
@@ -135,4 +175,31 @@ def add_blog(request):
         'record_entered': blog_serializer.data
     })
 
+@api_view(['PUT'])
+def update_blog(request, id):
+
+    try:
+        blog = Blog.objects.get(id=id)
+        blog_serializer = BlogSerializer(instance=blog, data=request.data, partial=True)
+
+        if blog_serializer.is_valid():
+            blog_serializer.save()
+            return Response(blog_serializer.data)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    except:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['DELETE'])
+def delete_blog(request, id):
+
+    try:
+        blog = Blog.objects.get(id=id)
+        blog.delete()
+
+        return Response({
+            'message' : 'Deletion Successful!'
+        })
+    except:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
