@@ -1,0 +1,36 @@
+.user {
+    font-weight: bold;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+.heading {
+    clear: both;
+    text-align: center;
+    color: lightgoldenrodyellow;
+}
+
+.created{
+    margin-bottom: 34px;
+}
+
+
+.title {
+    margin:40px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+.labels  {
+    margin-bottom: 20px;
+    margin-left: 8px;
+    
+}
+
+.author{
+    margin-left: 50px;
+}
+
+.content{
+    margin: 40px;
+    width: 93%;
+    line-height: 30px;
+}

@@ -1,0 +1,36 @@
+{% extends "profiles/base.html" %}
+{% load static %}
+
+{% block title %}Welcome!{% endblock %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/index.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/bio.css' %}"/> 
+{% endblock %}
+
+
+
+{% block body %}
+
+    <h1 class="username"> <span class="user">{{ user.username }}'s Bio </span></h1>
+
+    <a class="create_text" href="{% url 'create-bio' %}" > Create New </a>
+
+    {% for message in messages %}
+      <p class="messages"> {{message}} </p>
+    {% endfor %}
+
+    {% for object in users %}
+      <div class="record">
+        <div class="labels">
+          <h1 class="name"> {{ object.name }}</h1>
+          <h3> Address: {{ object.address }}</h3>
+          <h3> Description: {{ object.description }}</h3>
+        </div> 
+        <div class="methods">
+          <a class="method" href="{% url 'update-bio' object.id %}" > Update </a>
+          <a class="method" href="{% url 'delete-bio' object.id %}" > Delete </a>
+        </div>
+      </div>
+    {% endfor %}
+
+{% endblock %}

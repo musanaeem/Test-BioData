@@ -7,26 +7,9 @@
 
 {% block body %}
 
-    <h1 class="username"> Welcome <span class="user">{{ user.username }} </span></h1>
 
-    <a class="create_text" href="{% url 'create' %}" > Create New </a>
+    <h1 class="username"> Welcome <span class="user">{{ username }} </span></h1>
 
-    {% for message in messages %}
-      <p class="messages"> {{message}} </p>
-    {% endfor %}
-
-    {% for object in users %}
-      <div class="record">
-        <div class="labels">
-          <h1 class="name"> {{ object.name }}</h1>
-          <h3> Address: {{ object.address }}</h3>
-          <h3> Description: {{ object.description }}</h3>
-        </div> 
-        <div class="methods">
-          <a class="method" href="{% url 'update' object.id %}" > Update </a>
-          <a class="method" href="{% url 'delete' object.id %}" > Delete </a>
-        </div>
-      </div>
-    {% endfor %}
+    
 
 {% endblock %}

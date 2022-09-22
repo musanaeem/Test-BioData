@@ -1,0 +1,22 @@
+{% extends "profiles/base.html" %}
+{% load static %}
+
+{% block title %}Welcome!{% endblock %}
+{% block style %} 
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/blog.css' %}"/> 
+{% endblock %}
+
+
+
+{% block body %}
+
+    <h1 class="heading"> Blog </span></h1>
+
+        <div class="labels">
+            <h1 class="title"> {{ blog.title }} </h1>
+            <h4 class="author"> {{ blog.user }} | {{ blog.created }}</h4>
+            <hr>
+            <h3 class="content"> {{ blog.content }}</h3>
+        </div> 
+
+{% endblock %}

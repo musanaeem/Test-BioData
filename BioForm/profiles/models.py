@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.hashers import make_password
+from django.utils.text import slugify
 
 from django.db import models
 import datetime
@@ -10,9 +11,9 @@ class AccountManager(BaseUserManager):
 
     def create_user(self, email, username, password=None, **extra_fields):
         if not email:
-            raise ValueError("Users must have an email address")
+            raise ValueError('Users must have an email address')
         if not username:
-            raise ValueError("Users must have a username")
+            raise ValueError('Users must have a username')
         user = self.model(
             email = self.normalize_email(email),
             username = username,
@@ -49,11 +50,11 @@ class AccountManager(BaseUserManager):
 # Custom User Model
 class Account(AbstractBaseUser):
 
-    email = models.EmailField(verbose_name = "email", max_length = 60, unique = True)
+    email = models.EmailField(verbose_name = 'email', max_length = 60, unique = True)
     username = models.CharField(max_length = 30, unique = True)
-    date_joined = models.DateTimeField(verbose_name="date joined", auto_now_add = True)
-    last_login = models.DateTimeField(verbose_name = "last login", auto_now = True)
-    date_of_birth = models.DateField(verbose_name = "date of birth")
+    date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add = True)
+    last_login = models.DateTimeField(verbose_name = 'last login', auto_now = True)
+    date_of_birth = models.DateField(verbose_name = 'date of birth')
     age = models.IntegerField(null=True, blank= True)
     
     is_admin = models.BooleanField(default=False)
@@ -88,6 +89,23 @@ class Bio(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     address = models.CharField(max_length=300, blank=True)
     description = models.TextField(blank=True)
+
+class Blog(models.Model):
+    title = models.CharField(max_length=300, unique=True)
+    slug = models.SlugField(max_length=400, unique=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now= True)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    content = models.TextField()
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['-created']
+
+
 
 
 

@@ -3,10 +3,20 @@
 
 
 {% block title %} {{ title }} {% endblock %}
-{% block style %} <link rel="stylesheet" type="text/css" href="{% static 'styles/create.css' %}"/> {% endblock %}
+
+{% block style %}
+    {% if type == 'Blog' %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/create_blog.css' %}"/>
+    {% elif type == 'Bio' %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/create.css' %}" %}/> 
+    {% endif %}
+{% endblock %}
 
 
 {% block body %}
+
+
+
 
 <div class="form-container">
     <h1> {{ heading }} </h1>
@@ -18,6 +28,7 @@
             {{form.as_ul}}
         </div>
         
+
         <input class="submit" type="submit" name="Submit">
 
     </form>
