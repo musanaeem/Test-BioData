@@ -77,12 +77,10 @@ def authenticate_user(request):
 
 @api_view(['GET'])
 def user_view(request):
-    user = request.user
-    if user.is_authenticated:
-        return Response({
-            'user_data': serialize_user(user)
-        })
-    return Response({})
+    serializer = authenticate_user(request)
+    return Response({
+        'user_data': serializer.data
+    })
 
 @api_view(['GET'])
 def bio_view(request):
@@ -99,7 +97,11 @@ def bio_create(request):
     serializer = authenticate_user(request)
 
     if Bio.objects.filter(user_id=serializer.data['id']):
-        raise Exception('Bio Already Exists! Cannot Add Another')
+        return Response(
+                {'detail': 'Bio already exists!',
+                'status': '400'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
     bio_serializer = BioSerializer(data=request.data)
     bio_serializer.initial_data['user'] = serializer.data['id']
