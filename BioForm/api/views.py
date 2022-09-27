@@ -1,12 +1,14 @@
 import datetime
 import jwt
+from django.shortcuts import get_object_or_404
 from profiles.models import *
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.views import APIView
 from .serializers import *
-from .permissions import IsJWTAuthenticated
+from .permissions import IsJWTAuthenticated, IsUsersObject
+from .utils import authenticate_or_get_user
 
 def serialize_user(user):
     return {
@@ -15,17 +17,6 @@ def serialize_user(user):
         'date_of_birth': user.date_of_birth,
     }
 
-def get_authenticated_user(request):
-    token = request.COOKIES.get('jwt')
-    
-    try:
-        payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-    except:
-        raise Exception('Not Authenticated')
-    user = Account.objects.filter(id=payload['id']).first()
-    serializer = LoginSerializer(user)
-
-    return serializer
 
 class RegisterView(APIView):
     def post(self, request):
@@ -81,7 +72,7 @@ class BioView(APIView):
 
     def get(self, request):
         try:
-            serializer = get_authenticated_user(request)
+            serializer = authenticate_or_get_user(request)
             bio = Bio.objects.filter(user_id=serializer.data['id']).first()
             bio_serializer = BioSerializer(bio)
             return Response(bio_serializer.data)
@@ -90,7 +81,7 @@ class BioView(APIView):
 
 
     def post(self, request):
-        serializer = get_authenticated_user(request)
+        serializer = authenticate_or_get_user(request)
 
         if Bio.objects.filter(user_id=serializer.data['id']):
             return Response(
@@ -113,7 +104,7 @@ class BioView(APIView):
     def put(self, request):
 
         try:
-            serializer = get_authenticated_user(request)
+            serializer = authenticate_or_get_user(request)
             bio = Bio.objects.filter(user_id=serializer.data['id']).first()
 
             bio_serializer = BioSerializer(instance=bio, data=request.data, partial=True)
@@ -130,7 +121,7 @@ class BioView(APIView):
     def delete(self, request):
 
         try:
-            serializer = get_authenticated_user(request)
+            serializer = authenticate_or_get_user(request)
             bio = Bio.objects.filter(user_id=serializer.data['id']).first()
             bio.delete()
 
@@ -139,8 +130,22 @@ class BioView(APIView):
             })
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
-    
+   
+class BlogViewSet(viewsets.ModelViewSet):
 
+    serializer_class = BlogSerializer
+    queryset = Blog.objects.all()
+
+    def get_permissions(self):
+        action_list = ['list', 'get', 'post', 'retrieve']
+        if self.action in action_list:
+            permission_classes = [IsJWTAuthenticated]
+        else:
+            permission_classes = [IsUsersObject]
+        return [permission() for permission in permission_classes]
+
+
+'''
 class BlogListView(APIView):
 
     permission_classes = [IsJWTAuthenticated]
@@ -224,3 +229,4 @@ class BlogDetailedView(APIView):
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+'''
