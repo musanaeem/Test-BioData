@@ -7,7 +7,7 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.views import APIView
 from .serializers import *
 from .permissions import IsJWTAuthenticated, IsUsersObject
-from .utils import authenticate_or_get_user
+from .utils import authenticate_user
 
 def serialize_user(user):
     return {
@@ -71,7 +71,7 @@ class BioView(APIView):
 
     def get(self, request):
         try:
-            serializer = authenticate_or_get_user(request)
+            serializer = authenticate_user(request)
             bio = Bio.objects.filter(user_id=serializer.data['id']).first()
             bio_serializer = BioSerializer(bio)
             return Response(bio_serializer.data)
@@ -80,7 +80,7 @@ class BioView(APIView):
 
 
     def post(self, request):
-        serializer = authenticate_or_get_user(request)
+        serializer = authenticate_user(request)
 
         if Bio.objects.filter(user_id=serializer.data['id']):
             return Response(
@@ -103,7 +103,7 @@ class BioView(APIView):
     def put(self, request):
 
         try:
-            serializer = authenticate_or_get_user(request)
+            serializer = authenticate_user(request)
             bio = Bio.objects.filter(user_id=serializer.data['id']).first()
 
             bio_serializer = BioSerializer(instance=bio, data=request.data, partial=True)
@@ -120,7 +120,7 @@ class BioView(APIView):
     def delete(self, request):
 
         try:
-            serializer = authenticate_or_get_user(request)
+            serializer = authenticate_user(request)
             bio = Bio.objects.filter(user_id=serializer.data['id']).first()
             bio.delete()
 

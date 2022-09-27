@@ -2,7 +2,7 @@ import jwt
 from profiles.models import Account
 from .serializers import LoginSerializer
 
-def authenticate_or_get_user(request):
+def authenticate_user(request):
     token = request.COOKIES.get('jwt')
     
     try:
