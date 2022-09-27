@@ -1,6 +1,5 @@
 import datetime
 import jwt
-from django.shortcuts import get_object_or_404
 from profiles.models import *
 from rest_framework import status, viewsets
 from rest_framework.response import Response
@@ -143,90 +142,3 @@ class BlogViewSet(viewsets.ModelViewSet):
         else:
             permission_classes = [IsUsersObject]
         return [permission() for permission in permission_classes]
-
-
-'''
-class BlogListView(APIView):
-
-    permission_classes = [IsJWTAuthenticated]
-
-    def get(self, request):
-        try:
-            blogs = Blog.objects.all()
-            blog_serializer = BlogSerializer(blogs, many=True)
-            return Response(blog_serializer.data)
-        except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-
-    def post(self, request):
-        serializer = get_authenticated_user(request)
-
-        blog_serializer = BlogSerializer(data=request.data)
-        blog_serializer.initial_data['user'] = serializer.data['id']
-        blog_serializer.is_valid(raise_exception=True)
-        blog_serializer.save()
-
-        return Response({
-            'message': 'success',
-            'record_entered': blog_serializer.data
-        })
-
-
-class BlogUserView(APIView):
-    def get(self, request):
-        serializer = get_authenticated_user(request)
-
-        try:
-            blogs = Blog.objects.filter(user_id=serializer.data['id'])
-            blog_serializer = BlogSerializer(blogs, many=True)
-            return Response(blog_serializer.data)
-        except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-
-class BlogDetailedView(APIView):
-
-    def get(self, request, id):
-        try:
-            blog = Blog.objects.filter(id=id).first()
-            blog_serializer = BlogSerializer(blog)
-            return Response(blog_serializer.data)
-        except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-
-    def put(self, request, id):
-
-        serializer = get_authenticated_user(request)
-
-        try:
-            blogs = Blog.objects.filter(user_id=serializer.data['id'])
-
-            blog = blogs.get(id=id)
-            blog_serializer = BlogSerializer(instance=blog, data=request.data, partial=True)
-
-            if blog_serializer.is_valid():
-                blog_serializer.save()
-                return Response(blog_serializer.data)
-            else:
-                return Response(status=status.HTTP_404_NOT_FOUND)
-        except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-
-    def delete(self, request, id):
-
-        serializer = get_authenticated_user(request)
-        try:
-            blogs = Blog.objects.filter(user_id=serializer.data['id'])
-            blog = blogs.get(id=id)
-            blog.delete()
-
-            return Response({
-                'message' : 'Deletion Successful!'
-            })
-        except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-'''
