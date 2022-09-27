@@ -7,7 +7,6 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.views import APIView
 from .serializers import *
 from .permissions import IsJWTAuthenticated, IsUsersObject
-from .utils import authenticate_user
 
 def serialize_user(user):
     return {
@@ -49,7 +48,7 @@ class LoginView(APIView):
         response = Response()
         response.set_cookie(key='jwt', value=token, httponly=True)
         response.data = {
-            'jwt': token
+            'jwt': token,
         }
 
         return response
@@ -60,7 +59,7 @@ class LogoutView(APIView):
         response = Response()
         response.delete_cookie('jwt')
         response.data = {
-            'message': 'success'
+            'message': 'success',
         }
         return response
 
@@ -71,7 +70,7 @@ class BioView(APIView):
 
     def get(self, request):
         try:
-            serializer = authenticate_user(request)
+            serializer = request.api_user
             bio = Bio.objects.filter(user_id=serializer.data['id']).first()
             bio_serializer = BioSerializer(bio)
             return Response(bio_serializer.data)
@@ -80,7 +79,7 @@ class BioView(APIView):
 
 
     def post(self, request):
-        serializer = authenticate_user(request)
+        serializer = request.api_user
 
         if Bio.objects.filter(user_id=serializer.data['id']):
             return Response(
@@ -103,7 +102,7 @@ class BioView(APIView):
     def put(self, request):
 
         try:
-            serializer = authenticate_user(request)
+            serializer = request.api_user
             bio = Bio.objects.filter(user_id=serializer.data['id']).first()
 
             bio_serializer = BioSerializer(instance=bio, data=request.data, partial=True)
@@ -120,7 +119,7 @@ class BioView(APIView):
     def delete(self, request):
 
         try:
-            serializer = authenticate_user(request)
+            serializer = request.api_user
             bio = Bio.objects.filter(user_id=serializer.data['id']).first()
             bio.delete()
 
