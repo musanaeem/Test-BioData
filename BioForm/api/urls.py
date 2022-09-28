@@ -17,9 +17,3 @@ urlpatterns = [
 ]
 
 urlpatterns += router.urls
-
-'''
-    path('api/blogs/', views.BlogListView.as_view(), name='api-blog-list'),
-    path('api/blogs/user/', views.BlogUserView.as_view(), name='api-user-blog'),
-    path('api/blogs/<int:id>', views.BlogDetailedView.as_view(), name='api-blog'),
-''' 
