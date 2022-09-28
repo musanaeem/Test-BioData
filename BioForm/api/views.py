@@ -12,10 +12,10 @@ from django.shortcuts import get_object_or_404
 
 class RegisterView(APIView):
     def post(self, request):
-        serializer = RegisterSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
+        register_serializer = RegisterSerializer(data=request.data)
+        register_serializer.is_valid(raise_exception=True)
+        register_serializer.save()
+        return Response(register_serializer.data)
 
 
 class LoginView(APIView):
@@ -64,8 +64,7 @@ class BioView(APIView):
 
     def get(self, request):
         user = request.api_user
-        serializer = UserSerializer(user)
-        bio = get_object_or_404(Bio, user_id=serializer.data['id'])
+        bio = get_object_or_404(Bio, user_id=user.id)
         bio_serializer = BioSerializer(bio)
         return Response(bio_serializer.data)
         
@@ -74,9 +73,8 @@ class BioView(APIView):
     def post(self, request):
 
         user = request.api_user
-        serializer = UserSerializer(user)
 
-        if Bio.objects.filter(user_id=serializer.data['id']):
+        if Bio.objects.filter(user_id=user.id):
             return Response(
                     {'detail': 'Bio already exists!',
                     'status': '400'}, 
@@ -84,7 +82,7 @@ class BioView(APIView):
                 )
 
         bio_serializer = BioSerializer(data=request.data)
-        bio_serializer.initial_data['user'] = serializer.data['id']
+        bio_serializer.initial_data['user'] = user.id
         bio_serializer.is_valid(raise_exception=True)
         bio_serializer.save()
 
@@ -97,8 +95,8 @@ class BioView(APIView):
     def patch(self, request):
 
         user = request.api_user
-        serializer = UserSerializer(user)
-        bio = get_object_or_404(Bio, user_id=serializer.data['id'])
+        
+        bio = get_object_or_404(Bio, user_id=user.id)
 
         bio_serializer = BioSerializer(instance=bio, data=request.data, partial=True)
 
@@ -113,8 +111,7 @@ class BioView(APIView):
     def delete(self, request):
 
         user = request.api_user
-        serializer = UserSerializer(user)
-        bio = get_object_or_404(Bio, user_id=serializer.data['id'])
+        bio = get_object_or_404(Bio, user_id=user.id)
         bio.delete()
 
         return Response({

@@ -5,11 +5,10 @@ class IsJWTAuthenticated(BasePermission):
     message = 'You must be logged in.'
 
     def has_permission(self, request, view):
-        return request.api_user is not None
+        return request.api_user
         
 
 class IsUsersObject(IsJWTAuthenticated):
 
     def has_object_permission(self, request, view, obj):
-        serializer = request.api_user
-        return getattr(obj, 'user_id') == serializer.data['id']
+        return getattr(obj, 'user_id') == getattr(request.api_user, 'id')

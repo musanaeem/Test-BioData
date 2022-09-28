@@ -15,6 +15,7 @@ class JTW_AuthenticationMiddleware(MiddlewareMixin):
                 payload = jwt.decode(token, 'secret', algorithms=['HS256'])
                 user = Account.objects.filter(id=payload['id']).first()
                 request.api_user = user
+                return
 
             except jwt.ExpiredSignatureError:
                 raise AuthenticationFailed('Unauthenticated! Signature has expired')
