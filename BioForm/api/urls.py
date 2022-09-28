@@ -6,7 +6,7 @@ from .views import BlogViewSet
 app_name = 'api'
 
 router = DefaultRouter()
-router.register('api/blogview',BlogViewSet, basename='blog')
+router.register('api/blog',BlogViewSet, basename='api-blog-view')
 
 urlpatterns = [
     path('api/login/', views.LoginView.as_view()),

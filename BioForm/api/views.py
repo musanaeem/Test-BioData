@@ -7,13 +7,7 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.views import APIView
 from .serializers import *
 from .permissions import IsJWTAuthenticated, IsUsersObject
-
-def serialize_user(user):
-    return {
-        'username': user.username,
-        'email': user.email,
-        'date_of_birth': user.date_of_birth,
-    }
+from django.shortcuts import get_object_or_404
 
 
 class RegisterView(APIView):
@@ -69,13 +63,12 @@ class BioView(APIView):
     permission_classes = [IsJWTAuthenticated]
 
     def get(self, request):
-        try:
-            serializer = request.api_user
-            bio = Bio.objects.filter(user_id=serializer.data['id']).first()
-            bio_serializer = BioSerializer(bio)
-            return Response(bio_serializer.data)
-        except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = request.api_user
+        bio = get_object_or_404(Bio, user_id=serializer.data['id'])
+        bio_serializer = BioSerializer(bio)
+        return Response(bio_serializer.data)
+        
 
 
     def post(self, request):
@@ -99,35 +92,33 @@ class BioView(APIView):
         })
 
 
-    def put(self, request):
+    def patch(self, request):
 
-        try:
-            serializer = request.api_user
-            bio = Bio.objects.filter(user_id=serializer.data['id']).first()
+        
+        serializer = request.api_user
+        bio = get_object_or_404(Bio, user_id=serializer.data['id'])
 
-            bio_serializer = BioSerializer(instance=bio, data=request.data, partial=True)
+        bio_serializer = BioSerializer(instance=bio, data=request.data, partial=True)
 
-            if bio_serializer.is_valid():
-                bio_serializer.save()
-                return Response(bio_serializer.data)
-            else:
-                return Response(status=status.HTTP_404_NOT_FOUND)
-        except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        if bio_serializer.is_valid():
+            bio_serializer.save()
+            return Response(bio_serializer.data)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
 
 
     def delete(self, request):
 
-        try:
-            serializer = request.api_user
-            bio = Bio.objects.filter(user_id=serializer.data['id']).first()
-            bio.delete()
+        
+        serializer = request.api_user
+        bio = get_object_or_404(Bio, user_id=serializer.data['id'])
+        bio.delete()
 
-            return Response({
-                'message' : 'Deletion Successful!'
-            })
-        except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response({
+            'message' : 'Deletion Successful!'
+        })
+        
    
 class BlogViewSet(viewsets.ModelViewSet):
 
