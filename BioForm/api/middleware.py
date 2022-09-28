@@ -1,8 +1,7 @@
 import jwt
 from profiles.models import Account
-from .serializers import LoginSerializer
 from django.utils.deprecation import MiddlewareMixin
-
+from rest_framework.exceptions import AuthenticationFailed
 
 
 class JTW_AuthenticationMiddleware(MiddlewareMixin):
@@ -11,14 +10,13 @@ class JTW_AuthenticationMiddleware(MiddlewareMixin):
 
         token = request.COOKIES.get('jwt')
         
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-            user = Account.objects.filter(id=payload['id']).first()
+        if token:
+            try:
+                payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+                user = Account.objects.filter(id=payload['id']).first()
+                request.api_user = user
 
-            if user:
-                serializer = LoginSerializer(user)    
-                request.api_user = serializer
-                return
-        except:
-            pass
+            except jwt.ExpiredSignatureError:
+                raise AuthenticationFailed('Unauthenticated! Signature has expired')
+        
         request.api_user = None

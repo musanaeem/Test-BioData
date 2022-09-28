@@ -39,7 +39,7 @@ class BlogSerializer(serializers.ModelSerializer):
         model = Blog
         fields = ['user', 'title', 'content']
 
-class LoginSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = ('id','username', 'email', 'password')

@@ -63,8 +63,8 @@ class BioView(APIView):
     permission_classes = [IsJWTAuthenticated]
 
     def get(self, request):
-        
-        serializer = request.api_user
+        user = request.api_user
+        serializer = UserSerializer(user)
         bio = get_object_or_404(Bio, user_id=serializer.data['id'])
         bio_serializer = BioSerializer(bio)
         return Response(bio_serializer.data)
@@ -72,7 +72,9 @@ class BioView(APIView):
 
 
     def post(self, request):
-        serializer = request.api_user
+
+        user = request.api_user
+        serializer = UserSerializer(user)
 
         if Bio.objects.filter(user_id=serializer.data['id']):
             return Response(
@@ -94,8 +96,8 @@ class BioView(APIView):
 
     def patch(self, request):
 
-        
-        serializer = request.api_user
+        user = request.api_user
+        serializer = UserSerializer(user)
         bio = get_object_or_404(Bio, user_id=serializer.data['id'])
 
         bio_serializer = BioSerializer(instance=bio, data=request.data, partial=True)
@@ -110,8 +112,8 @@ class BioView(APIView):
 
     def delete(self, request):
 
-        
-        serializer = request.api_user
+        user = request.api_user
+        serializer = UserSerializer(user)
         bio = get_object_or_404(Bio, user_id=serializer.data['id'])
         bio.delete()
 
