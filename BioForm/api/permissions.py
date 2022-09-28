@@ -5,7 +5,7 @@ class IsJWTAuthenticated(BasePermission):
     message = 'You must be logged in.'
 
     def has_permission(self, request, view):
-        return request.api_user
+        return request.api_user is not None
         
 
 class IsUsersObject(IsJWTAuthenticated):
