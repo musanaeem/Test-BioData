@@ -1,7 +1,6 @@
 import jwt
 from profiles.models import Account
 from django.utils.deprecation import MiddlewareMixin
-from rest_framework.exceptions import AuthenticationFailed
 
 
 class JTW_AuthenticationMiddleware(MiddlewareMixin):
