@@ -11,4 +11,6 @@ class IsJWTAuthenticated(BasePermission):
 class IsUsersObject(IsJWTAuthenticated):
 
     def has_object_permission(self, request, view, obj):
-        return getattr(obj, 'user_id') == getattr(request.api_user, 'id')
+        if request.api_user:
+            return getattr(obj, 'user_id') == getattr(request.api_user, 'id')
+        return False

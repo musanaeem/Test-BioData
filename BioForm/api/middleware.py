@@ -17,7 +17,7 @@ class JTW_AuthenticationMiddleware(MiddlewareMixin):
                 request.api_user = user
                 return
 
-            except jwt.ExpiredSignatureError:
-                raise AuthenticationFailed('Unauthenticated! Signature has expired')
+            except Exception:
+                pass
         
         request.api_user = None
