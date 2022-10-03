@@ -5,6 +5,7 @@ const last_name = document.getElementById("last-name");
 const email = document.getElementById("email");
 const password1 = document.getElementById("password");
 const password2 = document.getElementById("password-confirmation");
+const submit = document.getElementById("submit")
 
 // results object used to check if all fields are validated
 results = {
@@ -148,7 +149,6 @@ function are_valid_passwords(password1_value, password2_value){
 }
 
 function unlock_or_lock_submit(){
-    submit = document.getElementById("submit")
     if (Object.values(results).every((result) => result)){
         submit.disabled = false;
     }
