@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from . models import *
 from profiles.templates.forms import CreateUserForm, BioForm, BlogForm
+from django.template.defaultfilters import slugify
 
 
 @login_required(login_url = 'login')
@@ -13,6 +14,7 @@ def index(request):
         'username': request.user.username,
     }
     return render(request, 'profiles/index.html', context)
+
 
 def register_user(request):
     if request.user.is_authenticated:
@@ -26,7 +28,7 @@ def register_user(request):
             messages.success(request, 'Account was created for' + user)
             return redirect('login')
         
-
+    
     form = CreateUserForm()
 
     for field in form:
@@ -34,11 +36,21 @@ def register_user(request):
 
         widget.attrs['placeholder'] = field.label
         widget.attrs['class'] = 'form-control'
-     
+        widget.attrs['id'] = slugify(field.label)
+        widget.attrs['onfocusout'] = "validate_"+field.name.lower()+"()"
+
+    form.fields['password1'].widget.attrs['onfocusout'] = 'validate_passwords()'
+    form.fields['password2'].widget.attrs['onfocusout'] = 'validate_passwords()'
+
+    #Date of birth not validated by frontend
+    form.fields['date_of_birth'].widget.attrs['onfocusout'] = ''
+
+
     context = {
         'form': form
     }
     return render(request, 'profiles/register.html', context)
+
 
 def login_user(request):
     if request.user.is_authenticated:
@@ -57,9 +69,11 @@ def login_user(request):
         
     return render(request, 'profiles/login.html')
 
+
 def logout_user(request):
     logout(request)
     return redirect('login')
+
 
 @login_required(login_url = 'login')
 def bio_view(request):
@@ -68,7 +82,7 @@ def bio_view(request):
         'users': user_data,
     }
     return render(request, 'profiles/bio.html', context)
-    
+
 
 @login_required(login_url = 'login')
 def blog_list_view(request):
@@ -81,6 +95,7 @@ def blog_list_view(request):
     }
     return render(request, 'profiles/blogs.html', context)
 
+
 @login_required(login_url = 'login')
 def blog_view(request, id):
 
@@ -91,6 +106,7 @@ def blog_view(request, id):
         'blog': blog
     }
     return render(request, 'profiles/blog.html', context)
+
 
 @login_required(login_url = 'login')
 def bio_create(request):
@@ -119,6 +135,7 @@ def bio_create(request):
 
     return render(request, 'profiles/create.html', context)
 
+
 @login_required(login_url = 'login')
 def blog_create(request):
 
@@ -142,6 +159,7 @@ def blog_create(request):
 
     return render(request, 'profiles/create.html', context)
 
+
 @login_required(login_url = 'login')
 def bio_update(request, id):
 
@@ -163,6 +181,7 @@ def bio_update(request, id):
     }
 
     return render(request, 'profiles/create.html', context)
+
 
 @login_required(login_url = 'login')
 def blog_update(request, id):
@@ -186,6 +205,7 @@ def blog_update(request, id):
 
     return render(request, 'profiles/create.html', context)
 
+
 @login_required(login_url = 'login')
 def bio_delete(request, id):
     selected_user_data = Bio.objects.get(id = id)
@@ -199,6 +219,7 @@ def bio_delete(request, id):
     }
 
     return render(request, 'profiles/delete.html', context)
+
 
 @login_required(login_url = 'login')
 def blog_delete(request, id):
