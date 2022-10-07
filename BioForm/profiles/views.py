@@ -31,21 +31,6 @@ def register_user(request):
     
     form = CreateUserForm()
 
-    for field in form:
-        widget = form.fields[field.name].widget
-
-        widget.attrs['placeholder'] = field.label
-        widget.attrs['class'] = 'form-control'
-        widget.attrs['id'] = slugify(field.label)
-        widget.attrs['onfocusout'] = "validate_"+field.name.lower()+"()"
-
-    form.fields['password1'].widget.attrs['onfocusout'] = 'validate_passwords()'
-    form.fields['password2'].widget.attrs['onfocusout'] = 'validate_passwords()'
-
-    #Date of birth not validated by frontend
-    form.fields['date_of_birth'].widget.attrs['onfocusout'] = ''
-
-
     context = {
         'form': form
     }
