@@ -124,14 +124,14 @@ def bio_create(request):
 @login_required(login_url = 'login')
 def blog_create(request):
 
-    if request.method == 'POST':        
+    if request.method == 'POST':
         form = BlogForm(request.POST)
 
         if form.is_valid():
             form.cleaned_data['user'] = request.user.id
             form.save()
             return redirect('blogs')
-    
+
     form = BlogForm()
     form.fields['user'].initial = request.user.id
 

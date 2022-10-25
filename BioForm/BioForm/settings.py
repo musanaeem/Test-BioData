@@ -49,12 +49,14 @@ INSTALLED_APPS = [
 
     'api',
     'profiles',
+    'corsheaders'
 ]
 
 # Custom login redirect middleware
 # 'profiles.middleware.LoginRequiredMiddleware'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -147,3 +149,9 @@ LOGIN_EXEMPT_URLS = (
     r'^profiles/register/$',
 )
 
+CORS_ORIGIN_ALLOW_ALL = True
+ALLOWED_HOSTS = ['*']
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]

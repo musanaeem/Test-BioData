@@ -7,8 +7,11 @@ class JTW_AuthenticationMiddleware(MiddlewareMixin):
     def process_request(self, request):
         assert hasattr(request, 'COOKIES')
 
-        token = request.COOKIES.get('jwt')
-        
+        try:
+            token = request.COOKIES.get('jwt')
+        except KeyError:
+            token = None
+
         if token:
             try:
                 payload = jwt.decode(token, 'secret', algorithms=['HS256'])
@@ -20,3 +23,5 @@ class JTW_AuthenticationMiddleware(MiddlewareMixin):
                 pass
         
         request.api_user = None
+
+        
