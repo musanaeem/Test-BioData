@@ -37,9 +37,6 @@ class BioSerializer(serializers.ModelSerializer):
 
 class BlogSerializer(serializers.ModelSerializer):
     user_username = serializers.SerializerMethodField('_get_account_username')
-    #serializers.SerializerMethodField('_get_account_username')
-
-    #serializers.CharField(source='user.username')
 
     def _get_account_username(self, blog_obect):
         user = getattr(blog_obect, 'user')
