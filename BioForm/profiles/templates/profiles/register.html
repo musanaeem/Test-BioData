@@ -20,7 +20,7 @@
           </div>
           <div class="d-flex justify-content-center form-container">
 
-            <form method="POST" action="">
+            <form method="POST" action="" id="form" >
                 {% csrf_token %}
 
               <div class="input-group mb-3">
@@ -28,6 +28,18 @@
                   <span class="input-group-text"><i class="fas fa-user"></i></span>
                 </div>
                 {{ form.username }}
+              </div>
+              <div class="input-group mb-2">
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
+                </div>
+                {{ form.first_name }}
+              </div>
+              <div class="input-group mb-2">
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
+                </div>
+                {{ form.last_name }}
               </div>
               <div class="input-group mb-2">
                 <div class="input-group-append">
@@ -55,7 +67,7 @@
               </div>
 
               <div class="d-flex justify-content-center mt-3 login-container">
-                <input class="btn login-btn" type="submit" value="Register Account">
+                <input id="submit" class="btn login-btn" type="submit" value="Register Account" disabled>
               </div>
             </form>
           </div>
@@ -69,7 +81,7 @@
         </div>
       </div>
     </div>
-    
+    <script type="text/javascript" src="{% static 'scripts/register.js' %}"></script>
   </body>
 
 

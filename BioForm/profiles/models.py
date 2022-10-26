@@ -17,6 +17,7 @@ class AccountManager(BaseUserManager):
         user = self.model(
             email = self.normalize_email(email),
             username = username,
+           
             **extra_fields
         )
 
@@ -30,6 +31,7 @@ class AccountManager(BaseUserManager):
             email = self.normalize_email(email),
             username = username,
             password = password,
+           
             **extra_fields
         )
 
@@ -50,6 +52,8 @@ class AccountManager(BaseUserManager):
 # Custom User Model
 class Account(AbstractBaseUser):
 
+    first_name = models.CharField(max_length = 15, null = True, blank=True)
+    last_name = models.CharField(max_length = 15, null=True, blank=True)
     email = models.EmailField(verbose_name = 'email', max_length = 60, unique = True)
     username = models.CharField(max_length = 30, unique = True)
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add = True)
@@ -104,9 +108,3 @@ class Blog(models.Model):
 
     class Meta:
         ordering = ['-created']
-
-
-
-
-
-# Create your models here.

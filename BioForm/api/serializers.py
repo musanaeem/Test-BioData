@@ -30,11 +30,19 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 class BioSerializer(serializers.ModelSerializer):
+    user_username = serializers.CharField(source='user.username')
     class Meta:
         model = Bio
-        fields = ['name', 'user', 'address', 'description']
+        fields = ['name','user_username', 'user', 'address', 'description']
 
 class BlogSerializer(serializers.ModelSerializer):
+    user_username = serializers.SerializerMethodField('_get_account_username')
+
+    def _get_account_username(self, blog_obect):
+        user = getattr(blog_obect, 'user')
+        username = getattr(user, 'username')
+        return username
+
     class Meta:
         model = Blog
-        fields = ['user', 'title', 'content']
+        fields = ['id', 'user', 'title', 'content', 'created', 'user_username']

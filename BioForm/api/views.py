@@ -12,6 +12,7 @@ from django.shortcuts import get_object_or_404
 
 class RegisterView(APIView):
     def post(self, request):
+        
         register_serializer = RegisterSerializer(data=request.data)
         register_serializer.is_valid(raise_exception=True)
         register_serializer.save()
@@ -42,7 +43,7 @@ class LoginView(APIView):
         response = Response()
         response.set_cookie(key='jwt', value=token, httponly=True)
         response.data = {
-            'jwt': token,
+            'username': user.username,
         }
 
         return response
@@ -83,6 +84,8 @@ class BioView(APIView):
 
         bio_serializer = BioSerializer(data=request.data)
         bio_serializer.initial_data['user'] = user.id
+        bio_serializer.initial_data['user_username'] = user.username
+
         bio_serializer.is_valid(raise_exception=True)
         bio_serializer.save()
 
@@ -123,6 +126,14 @@ class BlogViewSet(viewsets.ModelViewSet):
 
     serializer_class = BlogSerializer
     queryset = Blog.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        request.data['user'] = getattr(request.api_user, 'id')
+        return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        request.data['user'] = getattr(request.api_user, 'id')
+        return super().update(request, *args, **kwargs)
 
     def get_permissions(self):
         action_list = ['list', 'get', 'post', 'retrieve']

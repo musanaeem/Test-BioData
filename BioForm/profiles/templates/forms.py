@@ -22,5 +22,5 @@ class BlogForm(forms.ModelForm):
 class CreateUserForm(UserCreationForm):
     class Meta:
         model = Account
-        fields = ['username', 'email', 'date_of_birth', 'password1', 'password2']
+        fields = ['username', 'first_name', 'last_name', 'email', 'date_of_birth', 'password1', 'password2']
         widgets = {'date_of_birth': DateInput()}
