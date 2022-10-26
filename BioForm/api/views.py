@@ -127,6 +127,14 @@ class BlogViewSet(viewsets.ModelViewSet):
     serializer_class = BlogSerializer
     queryset = Blog.objects.all()
 
+    def create(self, request, *args, **kwargs):
+        request.data['user'] = getattr(request.api_user, 'id')
+        return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        request.data['user'] = getattr(request.api_user, 'id')
+        return super().update(request, *args, **kwargs)
+
     def get_permissions(self):
         action_list = ['list', 'get', 'post', 'retrieve']
         if self.action in action_list:
