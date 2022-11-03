@@ -1,19 +1,17 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
 from .views import BlogViewSet
 
-app_name = 'api'
-
 router = DefaultRouter()
-router.register('api/blog',BlogViewSet, basename='api-blog-view')
+router.register(r'api/blog',BlogViewSet, basename='apiblogview')
 
 urlpatterns = [
-    path('api/login/', views.LoginView.as_view()),
-    path('api/register/', views.RegisterView.as_view()),
-    path('api/logout/', views.LogoutView.as_view()),
+    path('api/login/', views.LoginView.as_view(), name='login-api'),
+    path('api/register/', views.RegisterView.as_view(), name='register-api'),
+    path('api/logout/', views.LogoutView.as_view(), name='logout-api'),
 
     path('api/bio/', views.BioView.as_view(), name='api-bio-view'),
+    path('', include((router.urls, 'api')), name='blogview'),
 ]
 
-urlpatterns += router.urls

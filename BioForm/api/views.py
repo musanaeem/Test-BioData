@@ -21,6 +21,14 @@ class RegisterView(APIView):
 
 class LoginView(APIView):
     def post(self, request):
+
+        if not request.data.get('email') or not request.data.get('password'):
+            return Response(
+                    {'detail': 'Data not sent!',
+                    'status': '400'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
         email = request.data['email']
         password = request.data['password']
 
