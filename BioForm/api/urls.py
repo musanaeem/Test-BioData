@@ -4,7 +4,7 @@ from . import views
 from .views import BlogViewSet
 
 router = DefaultRouter()
-router.register(r'api/blog',BlogViewSet, basename='apiblogview')
+router.register(r'api/blog',BlogViewSet, basename='api-blog-view')
 
 urlpatterns = [
     path('api/login/', views.LoginView.as_view(), name='login-api'),
@@ -12,6 +12,6 @@ urlpatterns = [
     path('api/logout/', views.LogoutView.as_view(), name='logout-api'),
 
     path('api/bio/', views.BioView.as_view(), name='api-bio-view'),
-    path('', include((router.urls, 'api')), name='blogview'),
+    path('', include((router.urls, 'api'))),
 ]
 

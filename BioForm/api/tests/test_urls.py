@@ -18,5 +18,5 @@ class TestUrls(SimpleTestCase):
         self.assertEquals(resolve(url).func.view_class, views.BioView)
 
     def test_blog_url_is_resolved(self):
-        url = reverse('api:apiblogview-list')
+        url = reverse('api:api-blog-view-list')
         self.assertEquals(resolve(url).func.__name__, views.BlogViewSet.__name__)
