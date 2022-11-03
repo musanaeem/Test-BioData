@@ -25,6 +25,11 @@ class TestViews(TestSetup):
         self.test_user_can_login()
         self.client.post(self.bio_url, self.bio_data, format='json')
 
+    def test_bio_unauthenticated(self):
+        response = self.client.get(self.bio_url)
+
+        self.assertEqual(response.status_code, 403)
+
     def test_bio_GET(self):
         self.authentication_user_and_add_bio()
 
